@@ -1,0 +1,11 @@
+<form method="POST" action="{{ url_for('verifier') }}">
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="password" name="password" placeholder="Password" required>
+  <button type="submit">Login</button>
+</form>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="error">{{ messages[0] }}</div>
+  {% endif %}
+{% endwith %}

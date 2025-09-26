@@ -1,0 +1,174 @@
+  @keyframes slideDown {
+    0% { opacity: 0; transform: translateY(-1rem); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+  @keyframes slideUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-1rem); }
+}
+
+  @keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+.slide-down { 
+    animation: slideDown 0.3s ease-out forwards; 
+}
+
+.slide-up   { 
+    animation: slideUp   0.3s ease-in  forwards; 
+}
+
+:root {
+  --bg: #ffffff;          /* body background  */
+  --fg: #1f2937;          /* body text  */
+  --header-bg: linear-gradient(135deg, #ffca61, #226614);   /* header background  */
+  --header-text: #ffffff; /* header text  */
+  --card-bg: #ffca61;     /* card background  */
+  --card-border: #f59c21; /* card border  */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+}
+
+header {
+  background: var(--header-bg);
+  color: var(--header-text);
+}
+
+#menu-icon {
+    scale: 1.5;
+}
+
+#menu-icon .bar {
+  -webkit-transform-box: view-box;
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  transition: transform 0.3s cubic-bezier(.2,.9,.2,1), opacity 0.2s ease;
+  will-change: transform, opacity;
+}
+
+#menu-icon.active .top {
+  transform: translateY(3px) rotate(45deg);
+}
+
+#menu-icon.active .middle {
+  opacity: 0;
+  transform: scaleX(0.9); 
+}
+
+#menu-icon.active .bottom {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+.thth{
+    font-size: 26px;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  transform: scale(1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+  transform: scale(1.05);
+}
+
+nav a {
+  position: relative;
+  color: #ffffff;
+  text-align: center;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 0;
+  height: 2px;
+  background:  #ffca61;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 110%;
+}
+
+.sold-out {
+  position: relative;
+  overflow: hidden;
+}
+
+.sold-out::after {
+  content: "SOLD OUT";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(255, 0, 0, 0.9);
+  transform: rotate(-30deg);  
+  text-transform: uppercase;
+  background: linear-gradient(120deg, rgba(255,0,0,0.9) 0%, rgba(255,255,255,0.6) 50%, rgba(255,0,0,0.9) 100%);
+  background-size: 200% auto;  
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite linear;
+}
+
+.coming-soon{
+    position: relative;
+    overflow: hidden;
+}
+
+.coming-soon::after {
+  content: "Coming soon";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 900;
+  color: rgba(255, 0, 0, 0.9);
+  transform: rotate(-30deg);  
+  text-transform: uppercase;
+  background: linear-gradient(120deg, rgba(0, 255, 0, 0.9) 0%, rgba(255,255,255,0.6) 50%, rgba(0, 255, 0, 0.9) 100%);
+  background-size: 200% auto;  
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite linear;
+}
+
+.ctform{
+  background: url('img/heroimage.png');
+  background-size: cover;
+}
+
+#contact-form ::placeholder {
+  color: #ffffff; /* Placeholder text color */
+}
+
+#area-input ::placeholder {
+  color: #ffffff; /* Placeholder text color */
+} 

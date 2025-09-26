@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings</title>
+  <style>
+    table { border-collapse: collapse; margin: 10px 0; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; }
+    th { background: #eee; }
+  </style>
+</head>
+<body>
+  <h1>Welcome, {{ user }} ({{ role }})</h1>
+
+  {% if role == "admins" %}
+    <h2>Manage Users</h2>
+    {% for section, users in verifier_data.items() %}
+      <h3>{{ section|capitalize }}</h3>
+      <table>
+        <tr><th>User</th><th>Email</th><th>Password</th></tr>
+        {% for u in users %}
+          <tr>
+            <td>{{ u.user }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.password }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+      <!-- add/edit/delete forms go here -->
+    {% endfor %}
+
+    <h2>Manage Posts</h2>
+    <table>
+      <tr><th>Title</th><th>Excerpt</th></tr>
+      {% for p in posts_data.projects + posts_data.blog %}
+        <tr>
+          <td>{{ p.title }}</td>
+          <td>{{ p.excerpt }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% elif role == "editors" %}
+    <h2>Manage Posts</h2>
+    <table>
+      <tr><th>Title</th><th>Excerpt</th></tr>
+      {% for p in posts_data.projects + posts_data.blog %}
+        <tr>
+          <td>{{ p.title }}</td>
+          <td>{{ p.excerpt }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% elif role == "techies" %}
+    <h2>Manage Techies</h2>
+    <table>
+      <tr><th>User</th><th>Email</th><th>Password</th></tr>
+      {% for u in verifier_data.techies %}
+        <tr>
+          <td>{{ u.user }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.password }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  <form action="{{ url_for('logout') }}" method="get" style="margin-top:20px; text-align:center;">
+    <button type="submit" style="padding:10px 20px; background:#c00; color:#fff; border:none; border-radius:5px; cursor:pointer;">
+      Logout
+    </button>
+  </form>
+</body>
+</html>
