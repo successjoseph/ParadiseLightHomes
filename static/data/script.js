@@ -1,5 +1,14 @@
 // script.js
 
+function hideloader() {
+    const loader = document.getElementById('pageloader');
+    if (loader) loader.style.display='none';
+}
+
+window.addEventListener('load', function(){
+    setTimeout(hideloader, 300);
+});
+
 // Cookie Banner
 const cookieBanner = document.getElementById("cookie-banner");
 const acceptBtn = document.getElementById("accept-cookies");

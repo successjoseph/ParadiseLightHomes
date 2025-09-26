@@ -12,6 +12,12 @@
   to { background-position: 200% center; }
 }
 
+  @keyframes spin {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .slide-down { 
     animation: slideDown 0.3s ease-out forwards; 
 }
@@ -27,6 +33,15 @@
   --header-text: #ffffff; /* header text  */
   --card-bg: #ffca61;     /* card background  */
   --card-border: #f59c21; /* card border  */
+}
+
+.spin {
+  border: 8px solid #226614;
+  border-top: 8px solid #f9b732;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s ease-in-out infinite;
 }
 
 html {
@@ -166,9 +181,9 @@ nav a:hover::after {
 }
 
 #contact-form ::placeholder {
-  color: #ffffff; /* Placeholder text color */
+  color: #1f2937; /* Placeholder text color */
 }
 
 #area-input ::placeholder {
-  color: #ffffff; /* Placeholder text color */
+  color: #1f2937; /* Placeholder text color */
 } 

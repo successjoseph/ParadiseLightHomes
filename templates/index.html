@@ -23,6 +23,11 @@
     </head>
     <body class="">
 
+        <!-- page loader-->
+         <div id="pageloader" style="position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; background: linear-gradient(135deg, #ffca61, #226614); display: flex; align-items: center; justify-content: center;">
+            <div class="spin"></div>
+         </div>
+
         <!-- Header -->
         <header class="relative px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
         <a href="{{ url_for('index') }}" class="mx-auto md:mx-0">
@@ -71,22 +76,22 @@
 
         <!-- About Us -->
         <section id="about" class="px-6 py-12 max-w-5xl mx-auto " data-aos="fade-up" data-aos-duration="1000">
-            <h2 class="text-3xl font-bold mb-6">About Us</h2>
-            <p class="mb-4">This is about Paradise Light Homes</p>
-            <div class="w-full md:w-1/2 space-y-4">
+            <h2 class="text-4xl text-center font-bold mb-6">About Us</h2>
+            <p class="text-1xl text-center mb-4">This is about Paradise Light Homes</p>
+            <div class="w-full space-y-4">
                 <div>
-                    <h3 class="text-2xl font-bold">Our Mission</h3>
-                    <p>This is our Mission.</p>
+                    <h3 class="text-3xl text-center font-bold">Our Mission</h3>
+                    <p class="text-1xl text-center">This is our Mission.</p>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-bold">Our Vision</h3>
-                    <p>This is our Vision.</p>
+                    <h3 class="text-3xl text-center font-bold">Our Vision</h3>
+                    <p class="text-1xl text-center"> To be a leader in sustainable land investment, providing opportunities that foster growth, prosperity, and environmental stewardship.</p>
                 </div>
             </div>
         </section>
 
         <!-- Projects -->
-        <section id="projects" class="px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#9df35b]" data-aos="fade-down" data-aos-duration="1000">
+        <section id="projects" class="px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#9df35b]">
             <h2 class="text-3xl font-bold mb-8">Our Projects</h2>
             <div id="projects-grid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 " data-aos="fade-left" data-aos-duration="1000">
                 <!-- JS will inject project cards here -->
@@ -159,7 +164,7 @@
         </section>
 
         <!-- Blog & News -->
-        <section id="blog" class=" px-6 py-12 max-w-6xl mx-auto bg-[#1f2937]" data-aos="fade-down" data-aos-duration="1000">
+        <section id="blog" class=" px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#1f2937]" data-aos="fade-down" data-aos-duration="1000">
             <h2 class="text-3xl font-bold mb-8 text-[#f59c21]">Blog & News</h2>
             <div id="blog-grid" class="grid gap-8 md:grid-cols-2">
                 <!-- JS will inject blog posts here -->
@@ -168,13 +173,13 @@
         </section>
 
         <!-- Contact us -->
-        <section id="contact" class="ctform px-6 py-12 max-w-6xl mx-auto rounded-lg shadow-lg">
+        <section id="contact" class="ctform px-6 py-12 max-w-6xl mx-auto rounded-lg shadow-lg" data-aos="fade-down" data-aos-duration="1000">    
         <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
-        <div class="grid gap-8 md:grid-cols-2"></div>
+        <div class="grid gap-8 md:grid-cols-2">
                 <form id="contact-form" action="{{ url_for('contact') }}" method="POST" class="space-y-4">
-                <input type="text" name="name" placeholder="Your Name" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#ffffff] bg-transparent"/>
-                <input type="email" name="email" placeholder="Your Email" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#ffffff] bg-transparent"/>
-                <textarea name="message" rows="5"  placeholder="Your Message" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#ffffff] bg-transparent"></textarea>
+                <input type="text" name="name" placeholder="Your Name" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#1f2937] bg-transparent"/>
+                <input type="email" name="email" placeholder="Your Email" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#1f2937] bg-transparent"/>
+                <textarea name="message" rows="5"  placeholder="Your Message" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#1f2937] bg-transparent"></textarea>
                 <button type="submit" class="bg-[#226614] text-white px-6 py-3 rounded font-semibold hover:bg-[#111827] transition-all duration-300">Send Message</button>
                 </form>
 
@@ -200,6 +205,7 @@
             </div>
         </section>
 
+
         <!-- Footer -->
         <footer class="bg-[#226614] text-gray-100 py-12">
             <div class="max-w-6xl mx-auto px-6 grid gap-8 md:grid-cols-3 flex justify-between">
@@ -218,7 +224,7 @@
                 </div>
 
                 <div class="items-center">
-                    <h4 class="font-semibold mb-3 text-[#ffca61] thth">Connect With Us</h4>
+                    <h4 class="font-semibold mb-3 text-[#ffca61] thth">Connect With Us</h4><br>
                     <div class="flex space-x-4 mb-4">
                         <a href="#" aria-label="Facebook"><img src="{{ url_for('static', filename='img/facebook-icon.svg') }}" alt="Facebook" class="h-6 w-6" /></a>
                         <a href="#" aria-label="Twitter"><img src="{{ url_for('static', filename='img/twitter-icon.svg') }}" alt="Twitter" class="h-6 w-6" /></a>
