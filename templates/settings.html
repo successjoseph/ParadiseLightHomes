@@ -1,74 +1,284 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-  <title>Settings</title>
+  <meta charset="utf-8">
+  <title>Editor Settings</title>
   <style>
-    table { border-collapse: collapse; margin: 10px 0; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; }
-    th { background: #eee; }
+    body{font-family: system-ui, sans-serif; padding:1.25rem}
+    table{width:100%;border-collapse:collapse;margin-bottom:1.25rem}
+    th,td{border:1px solid #ddd;padding:.5rem;text-align:left}
+    th{background:#f7f7f7}
+    .thumb{width:120px;height:70px;object-fit:cover;border-radius:6px}
+    .actions{display:flex;gap:.5rem}
+
+    /* simple modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4)}
+    .modal.open{display:flex}
+    .modal .panel{background:#fff;padding:1rem;border-radius:8px;max-width:760px;width:100%}
+
+    /* switches */
+    .switch{display:inline-block;position:relative;width:46px;height:26px}
+    .switch input{display:none}
+    .slider{position:absolute;inset:0;background:#ccc;border-radius:50px;transition:.2s}
+    .slider::after{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.2s}
+    input:checked + .slider{background:#226614}
+    input:checked + .slider::after{transform:translateX(20px)}
+
+    .btn{padding:.4rem .65rem;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer}
+    .btn-primary{background:#226614;color:#fff;border:none}
+    .btn-danger{background:#ff3b30;color:#fff;border:none}
   </style>
 </head>
 <body>
-  <h1>Welcome, {{ user }} ({{ role }})</h1>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <div>
+      <h2>Editor Settings</h2>
+      <div>Logged in as <strong>{{ user }}</strong></div>
+    </div>
+    <div>
+      <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+  </div>
 
-  {% if role == "admins" %}
-    <h2>Manage Users</h2>
-    {% for section, users in verifier_data.items() %}
-      <h3>{{ section|capitalize }}</h3>
-      <table>
-        <tr><th>User</th><th>Email</th><th>Password</th></tr>
-        {% for u in users %}
-          <tr>
-            <td>{{ u.user }}</td>
-            <td>{{ u.email }}</td>
-            <td>{{ u.password }}</td>
-          </tr>
+  <section>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>Projects</h3>
+      <button id="add-project" class="btn btn-primary">Add New Project</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Cover</th><th>Title</th><th>Excerpt</th><th>Flags</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for p in projects %}
+        <tr>
+          <td><img src="{{ p.cover }}" alt="{{ p.title }}" class="thumb"></td>
+          <td>{{ p.title }}</td>
+          <td>{{ p.excerpt }}</td>
+          <td>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <label class="switch"><input type="checkbox" disabled {{ 'checked' if p.published }}><span class="slider"></span></label>
+              <small>published</small>
+              <label class="switch"><input type="checkbox" disabled {{ 'checked' if p.is_sold }}><span class="slider"></span></label>
+              <small>sold</small>
+              <label class="switch"><input type="checkbox" disabled {{ 'checked' if p.is_coming }}><span class="slider"></span></label>
+              <small>coming</small>
+            </div>
+          </td>
+          <td class="actions">
+            <button class="btn edit-project" data-item='{{ p|tojson|e }}'>Edit</button>
+            <button class="btn btn-danger delete-project" data-id="{{ p.id }}">Delete</button>
+          </td>
+        </tr>
         {% endfor %}
-      </table>
-      <!-- add/edit/delete forms go here -->
-    {% endfor %}
-
-    <h2>Manage Posts</h2>
-    <table>
-      <tr><th>Title</th><th>Excerpt</th></tr>
-      {% for p in posts_data.projects + posts_data.blog %}
-        <tr>
-          <td>{{ p.title }}</td>
-          <td>{{ p.excerpt }}</td>
-        </tr>
-      {% endfor %}
+      </tbody>
     </table>
+  </section>
 
-  {% elif role == "editors" %}
-    <h2>Manage Posts</h2>
+  <section>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>Blog Posts</h3>
+      <button id="add-blog" class="btn btn-primary">Add New Blog</button>
+    </div>
+
     <table>
-      <tr><th>Title</th><th>Excerpt</th></tr>
-      {% for p in posts_data.projects + posts_data.blog %}
+      <thead>
+        <tr><th>Cover</th><th>Title</th><th>Excerpt</th><th>Link</th><th>Published</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for b in blog %}
         <tr>
-          <td>{{ p.title }}</td>
-          <td>{{ p.excerpt }}</td>
+          <td><img src="{{ b.cover }}" alt="{{ b.title }}" class="thumb"></td>
+          <td>{{ b.title }}</td>
+          <td>{{ b.excerpt }}</td>
+          <td><a href="{{ b.link }}" target="_blank" rel="noopener">{{ b.link }}</a></td>
+          <td><label class="switch"><input type="checkbox" disabled {{ 'checked' if b.published }}><span class="slider"></span></label></td>
+          <td class="actions">
+            <button class="btn edit-blog" data-item='{{ b|tojson|e }}'>Edit</button>
+            <button class="btn btn-danger delete-blog" data-id="{{ b.id }}">Delete</button>
+          </td>
         </tr>
-      {% endfor %}
+        {% endfor %}
+      </tbody>
     </table>
+  </section>
 
-  {% elif role == "techies" %}
-    <h2>Manage Techies</h2>
-    <table>
-      <tr><th>User</th><th>Email</th><th>Password</th></tr>
-      {% for u in verifier_data.techies %}
-        <tr>
-          <td>{{ u.user }}</td>
-          <td>{{ u.email }}</td>
-          <td>{{ u.password }}</td>
-        </tr>
-      {% endfor %}
-    </table>
-  {% endif %}
+  <!-- Project Modal -->
+  <div id="modal-project" class="modal" aria-hidden="true">
+    <div class="panel">
+      <h4 id="modal-project-title">Edit Project</h4>
+      <form id="project-form" method="POST" enctype="multipart/form-data" action="/settings/update_project">
+        <input type="hidden" name="id" id="proj-id">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+          <label>Title<input name="title" id="proj-title"></label>
+          <label>Header<input name="header" id="proj-header"></label>
+          <label>Subheader<input name="subheader" id="proj-subheader"></label>
+          <label>Link<input name="link" id="proj-link"></label>
+        </div>
+        <label style="display:block;margin-top:.5rem">Excerpt<textarea name="excerpt" id="proj-excerpt" rows="3" style="width:100%"></textarea></label>
 
-  <form action="{{ url_for('logout') }}" method="get" style="margin-top:20px; text-align:center;">
-    <button type="submit" style="padding:10px 20px; background:#c00; color:#fff; border:none; border-radius:5px; cursor:pointer;">
-      Logout
-    </button>
-  </form>
+        <div style="display:flex;gap:1rem;align-items:center;margin-top:.5rem">
+          <label class="switch"><input type="checkbox" name="published" id="proj-published"><span class="slider"></span></label><small>published</small>
+          <label class="switch"><input type="checkbox" name="is_sold" id="proj-sold"><span class="slider"></span></label><small>sold</small>
+          <label class="switch"><input type="checkbox" name="is_coming" id="proj-coming"><span class="slider"></span></label><small>coming</small>
+        </div>
+
+        <div style="margin-top:.5rem">
+          <label>Cover (optional)<input type="file" name="cover" accept="image/*"></label>
+          <div style="margin-top:.5rem"><img id="proj-cover-preview" src="" alt="cover" class="thumb"></div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:.5rem;margin-top:.75rem">
+          <button type="button" class="btn" id="proj-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="proj-save">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Blog Modal -->
+  <div id="modal-blog" class="modal" aria-hidden="true">
+    <div class="panel">
+      <h4 id="modal-blog-title">Edit Blog</h4>
+      <form id="blog-form" method="POST" enctype="multipart/form-data" action="/settings/update_blog">
+        <input type="hidden" name="id" id="blog-id">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+          <label>Title<input name="title" id="blog-title"></label>
+          <label>Header<input name="header" id="blog-header"></label>
+          <label>Link<input name="link" id="blog-link"></label>
+          <label>Subheader<input name="subheader" id="blog-subheader"></label>
+        </div>
+        <label style="display:block;margin-top:.5rem">Excerpt<textarea name="excerpt" id="blog-excerpt" rows="3" style="width:100%"></textarea></label>
+
+        <div style="display:flex;gap:1rem;align-items:center;margin-top:.5rem">
+          <label class="switch"><input type="checkbox" name="published" id="blog-published"><span class="slider"></span></label><small>published</small>
+        </div>
+
+        <div style="margin-top:.5rem">
+          <label>Cover (optional)<input type="file" name="cover" accept="image/*"></label>
+          <div style="margin-top:.5rem"><img id="blog-cover-preview" src="" alt="cover" class="thumb"></div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:.5rem;margin-top:.75rem">
+          <button type="button" class="btn" id="blog-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="blog-save">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // helpers
+    function openModal(id){document.getElementById(id).classList.add('open')}
+    function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+    // Projects: open edit modal and populate
+    document.querySelectorAll('.edit-project').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const raw = btn.getAttribute('data-item')
+        const p = JSON.parse(raw)
+        document.getElementById('modal-project-title').innerText = 'Edit Project - ' + (p.title || '')
+        document.getElementById('proj-id').value = p.id
+        document.getElementById('proj-title').value = p.title || ''
+        document.getElementById('proj-header').value = p.header || ''
+        document.getElementById('proj-subheader').value = p.subheader || ''
+        document.getElementById('proj-excerpt').value = p.excerpt || ''
+        document.getElementById('proj-link').value = p.link || ''
+        document.getElementById('proj-published').checked = !!p.published
+        document.getElementById('proj-sold').checked = !!p.is_sold
+        document.getElementById('proj-coming').checked = !!p.is_coming
+        document.getElementById('proj-cover-preview').src = p.cover || ''
+        // ensure form posts to update
+        document.getElementById('project-form').action = '/settings/update_project'
+        openModal('modal-project')
+      })
+    })
+
+    // Add new project
+    document.getElementById('add-project').addEventListener('click', () => {
+      document.getElementById('modal-project-title').innerText = 'Add New Project'
+      document.getElementById('proj-id').value = ''
+      document.getElementById('proj-title').value = ''
+      document.getElementById('proj-header').value = ''
+      document.getElementById('proj-subheader').value = ''
+      document.getElementById('proj-excerpt').value = ''
+      document.getElementById('proj-link').value = ''
+      document.getElementById('proj-published').checked = true
+      document.getElementById('proj-sold').checked = false
+      document.getElementById('proj-coming').checked = false
+      document.getElementById('proj-cover-preview').src = ''
+      document.getElementById('project-form').action = '/settings/add_project'
+      openModal('modal-project')
+    })
+
+    document.getElementById('proj-cancel').addEventListener('click', () => closeModal('modal-project'))
+
+    // Blog: edit
+    document.querySelectorAll('.edit-blog').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const raw = btn.getAttribute('data-item')
+        const b = JSON.parse(raw)
+        document.getElementById('modal-blog-title').innerText = 'Edit Blog - ' + (b.title || '')
+        document.getElementById('blog-id').value = b.id
+        document.getElementById('blog-title').value = b.title || ''
+        document.getElementById('blog-header').value = b.header || ''
+        document.getElementById('blog-subheader').value = b.subheader || ''
+        document.getElementById('blog-excerpt').value = b.excerpt || ''
+        document.getElementById('blog-link').value = b.link || ''
+        document.getElementById('blog-published').checked = !!b.published
+        document.getElementById('blog-cover-preview').src = b.cover || ''
+        document.getElementById('blog-form').action = '/settings/update_blog'
+        openModal('modal-blog')
+      })
+    })
+
+    document.getElementById('add-blog').addEventListener('click', () => {
+      document.getElementById('modal-blog-title').innerText = 'Add New Blog'
+      document.getElementById('blog-id').value = ''
+      document.getElementById('blog-title').value = ''
+      document.getElementById('blog-header').value = ''
+      document.getElementById('blog-subheader').value = ''
+      document.getElementById('blog-excerpt').value = ''
+      document.getElementById('blog-link').value = ''
+      document.getElementById('blog-published').checked = false
+      document.getElementById('blog-cover-preview').src = ''
+      document.getElementById('blog-form').action = '/settings/add_blog'
+      openModal('modal-blog')
+    })
+
+    document.getElementById('blog-cancel').addEventListener('click', () => closeModal('modal-blog'))
+
+    // Delete handlers (create and submit a POST form so flashes & redirects work)
+    document.querySelectorAll('.delete-project').forEach(btn => {
+      btn.addEventListener('click', e => {
+        if (!confirm('Delete this project? This action is permanent.')) return;
+        const id = btn.getAttribute('data-id');
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/settings/delete_project';
+        const input = document.createElement('input');
+        input.type = 'hidden'; input.name = 'id'; input.value = id;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+      });
+    });
+
+    document.querySelectorAll('.delete-blog').forEach(btn => {
+      btn.addEventListener('click', e => {
+        if (!confirm('Delete this blog post? This action is permanent.')) return;
+        const id = btn.getAttribute('data-id');
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/settings/delete_blog';
+        const input = document.createElement('input');
+        input.type = 'hidden'; input.name = 'id'; input.value = id;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+      });
+    });
+  </script>
 </body>
 </html>

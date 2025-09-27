@@ -6,18 +6,12 @@
       "header": "Palm Villa 1",
       "subheader": "Past success - fully sold estate and thriving estate.",
       "excerpt": "Prime oil-palm farmland converted into investor-ready estate.",
-      "content": "<p>Detailed writeup: plots, projected ROI, amenities, access roads and development timeline.</p>",
       "cover": "static/img/palmvilla1.png",
-      "slug": "palm-villa-1",
-      "tags": ["estate","sold","palm"],
       "published": true,
       "is_sold": true,
-      "is_event": false,
       "is_coming": false,
-      "status": "past",
-      "created_at": "2025-09-21T10:00:00Z",
-      "updated_at": "2025-09-21T10:00:00Z",
-      "link": "/projects/palm-villa-1.html"
+      "link": "/projects/palm-villa-1.html",
+      "updated_at": "2025-09-26T23:16:57.793714Z"
     },
     {
       "id": "proj-2",
@@ -25,18 +19,26 @@
       "header": "Palm Villa 2",
       "subheader": "Current acquisition - 2000 acres primed for development.",
       "excerpt": "A new acquisition with huge upside; prime soil and logistics.",
-      "content": "<p>Details about acquisition, timeline, investment options and developer notes.</p>",
       "cover": "static/img/palmvilla2.png",
-      "slug": "palm-villa-2",
-      "tags": ["acquisition","development"],
+      "published": true,
+      "is_sold": true,
+      "is_coming": false,
+      "link": "/projects/palm-villa-2.html",
+      "updated_at": "2025-09-26T23:25:39.488426Z"
+    },
+    {
+      "id": "proj-ff10c4a6",
+      "title": "Future Residential Estates",
+      "header": "Future Residential Estates",
+      "subheader": "Visionary communities designed for sustainable living.",
+      "excerpt": "Visionary communities designed for sustainable living.",
+      "cover": "static/uploads/b730b892b55944ba8b8b62d1e526a9aa_futureresidentialestate.png",
       "published": true,
       "is_sold": false,
-      "is_event": false,
       "is_coming": true,
-      "status": "upcoming",
-      "created_at": "2025-09-20T12:00:00Z",
-      "updated_at": "2025-09-20T12:00:00Z",
-      "link": "/projects/palm-villa-2.html"
+      "link": "/projects/residential-estates.html",
+      "created_at": "2025-09-26T22:53:20.396397Z",
+      "updated_at": "2025-09-26T23:25:45.968169Z"
     }
   ],
   "blog": [
@@ -46,15 +48,15 @@
       "header": "How to Maximize Your Palm Oil Yields",
       "subheader": "Best practices for plantation management",
       "excerpt": "Discover best practices for plantation management to ensure optimal harvests and ROI.",
-      "content": "<p>Full blog post content here — planting, pruning, harvest scheduling and fertilization tips.</p>",
       "cover": "static/img/blog-post-1.jpg",
       "slug": "maximize-palm-oil-yields",
-      "tags": ["agriculture","yield"],
+      "tags": [
+        "agriculture",
+        "yield"
+      ],
       "published": true,
       "is_event": false,
       "status": "published",
-      "created_at": "2025-09-18T08:00:00Z",
-      "updated_at": "2025-09-18T08:00:00Z",
       "link": "/blog/maximize-palm-oil-yields.html"
     },
     {
@@ -63,15 +65,15 @@
       "header": "Community Impact: Stories from the Field",
       "subheader": "How our work changes lives",
       "excerpt": "Meet families and workers transformed by our sustainable estates.",
-      "content": "<p>Interviews, case studies, and community development highlights.</p>",
       "cover": "static/img/blog-post-2.jpg",
       "slug": "community-impact-stories",
-      "tags": ["community","impact"],
+      "tags": [
+        "community",
+        "impact"
+      ],
       "published": true,
       "is_event": false,
       "status": "published",
-      "created_at": "2025-09-15T09:30:00Z",
-      "updated_at": "2025-09-15T09:30:00Z",
       "link": "/blog/community-impact-stories.html"
     },
     {
@@ -79,17 +81,33 @@
       "title": "Market Trends: Palm Oil in 2025",
       "header": "Market Trends: Palm Oil in 2025",
       "subheader": "Pricing, demand and where to invest next",
-      "excerpt": "An expert’s take on global demand, pricing forecasts, and where to invest next.",
-      "content": "<p>Market analysis, graphs, and investment windows for 2025.</p>",
+      "excerpt": "An expert\u2019s take on global demand, pricing forecasts, and where to invest next.",
       "cover": "static/img/blog-post-3.jpg",
       "slug": "palm-oil-2025-trends",
-      "tags": ["market","investment"],
+      "tags": [
+        "market",
+        "investment"
+      ],
       "published": true,
       "is_event": false,
       "status": "published",
-      "created_at": "2025-09-10T11:00:00Z",
-      "updated_at": "2025-09-10T11:00:00Z",
       "link": "/blog/palm-oil-2025-trends.html"
+    },
+    {
+      "id": "blog-d969070e",
+      "title": "Sustainability Practices You Should Know",
+      "header": "Sustainability Practices You Should Know",
+      "subheader": "these are practices you should take note of when making your work more eco-friendly",
+      "excerpt": "How PLH ensures eco-friendly cultivation without sacrificing profitability.",
+      "cover": "static/uploads/9a4a758848af4c10881c65ddea35885b_blog-post-4.jpg",
+      "slug": "sustainability-practices-you-should-know",
+      "tags": [],
+      "published": true,
+      "is_event": false,
+      "status": "published",
+      "link": "/blog/sustainable-practices.html",
+      "created_at": "2025-09-26T23:14:45.645918Z",
+      "updated_at": "2025-09-26T23:14:45.645918Z"
     }
   ]
 }
