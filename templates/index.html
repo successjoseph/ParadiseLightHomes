@@ -62,17 +62,32 @@
             <button id="accept-cookies" class="px-4 py-2 bg-green-700 text-white rounded">Accept</button>
         </div>
 
+        
         <!-- Hero Section -->
-        <section id="home" class="relative text-[#f59c21]" data-aos="fade-down" data-aos-duration="1000">
-            <img src="{{ url_for('static', filename='img/heroimage.png') }}" alt="Aerial view of dense oil palm plantation at sunrise" class="w-full h-96 object-cover brightness-75" />
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <h1 class="text-4xl font-bold">Paradise Light Homes</h1>
-                <br>
-                <h1 class="text-2xl font-bold">“Get Smart Assets. For Smarter Growth”</h1>
-                <a href="#projects" class="mt-6 inline-block bg-white text-[#226614] px-6 py-2 rounded font-semibold hover:bg-[#226614] hover:text-white hover:-translate-y-0.5 transition duration-300">View Projects</a>
-                <a href="{{ url_for('verifier') }}"><button style="opacity: 0;">⚙️</button></a>
-            </div>
-        </section>
+            <section id="home" class="home relative text-[#f59c21] slide-images" data-aos="fade-down" data-aos-duration="1000">
+                <div id="hero-bg" class="hero-bg"></div>
+                <div class="hero-overlay">
+                    <h1 class="hero-title">Paradise Light Homes</h1>
+                    <h2 class="hero-subtitle">“Get Smart Assets. For Smarter Growth”</h2>
+                    <a href="#projects" class="hero-btn">See Projects</a>
+                    <a href="{{ url_for('verifier') }}"><button class="hero-hidden-btn">⚙️</button></a>
+                </div>
+                <script>
+                    const heroImages = [
+                        "{{ url_for('static', filename='img/heroimage1.jpg') }}",
+                        "{{ url_for('static', filename='img/heroimage2.jpg') }}",
+                        
+                    ];
+                    let heroIndex = 0;
+                    function slideHeroImages() {
+                        const heroBg = document.getElementById('hero-bg');
+                        heroBg.style.backgroundImage = `url('${heroImages[heroIndex]}')`;
+                        heroIndex = (heroIndex + 1) % heroImages.length;
+                    }
+                    setInterval(slideHeroImages, 5000);
+                    window.addEventListener('DOMContentLoaded', slideHeroImages);
+                </script>
+            </section>
 
         <!-- About Us -->
         <section id="about" class="px-6 py-12 max-w-5xl mx-auto " data-aos="fade-up" data-aos-duration="1000">
