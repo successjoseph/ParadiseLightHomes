@@ -1,271 +1,555 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Paradise Light Homes LTD official website" />
-        <title>Paradise Light Homes LTD</title>
-        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/logoPLH.png') }}" />
-        <link rel="canonical" href="https://YOUR-DOMAIN/blog/" />
-        <meta property="og:type"    content="website" />
-        <meta property="og:title"   content="Blog – PLH" />
-        <meta property="og:description" content="Latest updates from PLH" />
-        <meta property="og:url"     content="https://YOUR-DOMAIN/blog/" />
-        <meta property="og:image"   content="https://YOUR-DOMAIN/img/logoPLH.png" />
-        <meta property="og:site_name" content="Paradise Light Homes LTD" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-        <script>document.addEventListener("DOMContentLoaded", () => AOS.init({ once: false }));</script>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="{{ url_for('static', filename='data/script.js') }}"></script>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Paradise Light Homes LTD official website"
+    />
+    <title>Paradise Light Homes LTD</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='img/logoPLH.png') }}"
+    />
+    <link rel="canonical" href="https://YOUR-DOMAIN/blog/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Blog – PLH" />
+    <meta property="og:description" content="Latest updates from PLH" />
+    <meta property="og:url" content="https://YOUR-DOMAIN/blog/" />
+    <meta property="og:image" content="https://YOUR-DOMAIN/img/logoPLH.png" />
+    <meta property="og:site_name" content="Paradise Light Homes LTD" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () =>
+        AOS.init({ once: false })
+      );
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ url_for('static', filename='data/script.js') }}"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body class="">
+    <!-- page loader-->
+    <div
+      id="pageloader"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 9999;
+        background: linear-gradient(135deg, #ffca61, #226614);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div class="spin"></div>
+    </div>
 
-    </head>
-    <body class="">
+    <!-- Header -->
+    <header
+      class="relative px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg"
+    >
+      <a href="{{ url_for('index') }}" class="mx-auto md:mx-0">
+        <img
+          src="{{ url_for('static', filename='img/horizontal logo whitePLH.png') }}"
+          alt="Palm Leaf Homes"
+          class="h-12 md:h-12 w-auto"
+        />
+      </a>
 
-        <!-- page loader-->
-         <div id="pageloader" style="position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; background: linear-gradient(135deg, #ffca61, #226614); display: flex; align-items: center; justify-content: center;">
-            <div class="spin"></div>
-         </div>
-
-        <!-- Header -->
-        <header class="relative px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
-        <a href="{{ url_for('index') }}" class="mx-auto md:mx-0">
-        <img src="{{ url_for('static', filename='img/horizontal logo whitePLH.png') }}" alt="Palm Leaf Homes" class="h-12 md:h-12 w-auto" />
-        </a>
-
-        <!-- Hamburger (Mobile Only) -->
-        <button class="md:hidden focus:outline-none" onclick="toggleMenu()" aria-label="Toggle Navigation" aria-expanded="false">
-        <svg id="menu-icon" class="h-6 w-6 text-white" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <rect class="bar top"    x="4" y="7"  width="16" height="1" rx="1"></rect>
-            <rect class="bar middle" x="4" y="11" width="16" height="1" rx="1"></rect>
-            <rect class="bar bottom" x="4" y="15" width="16" height="1" rx="1"></rect>
+      <!-- Hamburger (Mobile Only) -->
+      <button
+        class="md:hidden focus:outline-none"
+        onclick="toggleMenu()"
+        aria-label="Toggle Navigation"
+        aria-expanded="false"
+      >
+        <svg
+          id="menu-icon"
+          class="h-6 w-6 text-white"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <rect class="bar top" x="4" y="7" width="16" height="1" rx="1"></rect>
+          <rect
+            class="bar middle"
+            x="4"
+            y="11"
+            width="16"
+            height="1"
+            rx="1"
+          ></rect>
+          <rect
+            class="bar bottom"
+            x="4"
+            y="15"
+            width="16"
+            height="1"
+            rx="1"
+          ></rect>
         </svg>
-        </button>
+      </button>
 
-        <!-- Nav Links -->
-        <nav>
-                <ul id="nav-menu" class="hidden md:flex md:space-x-6 md:static absolute top-20 left-30 right-0 bg-[#226614bb] md:bg-transparent z-50 md:z-auto flex-col md:flex-row px-16 md:px-0 py-14 md:py-0">
-                    <li><a href="#home" class="block py-2">Home</a></li>
-                    <li><a href="#about" class="block py-2">About Us</a></li>
-                    <li><a href="#projects" class="block py-2">Projects</a></li>
-                    <li><a href="#investors" class="block py-2">Investor Resources</a></li>
-                    <li><a href="#blog" class="block py-2">Blog</a></li>
-                    <li><a href="#contact" class="block py-2">Contact</a></li>
-                </ul>
-        </nav>
-        </header>
+      <!-- Nav Links -->
+      <nav>
+        <ul
+          id="nav-menu"
+          class="hidden md:flex md:space-x-6 md:static absolute top-20 left-30 right-0 bg-[#226614bb] md:bg-transparent z-50 md:z-auto flex-col md:flex-row px-16 md:px-0 py-14 md:py-0"
+        >
+          <li><a href="#home" class="block py-2">Home</a></li>
+          <li><a href="#about" class="block py-2">About Us</a></li>
+          <li><a href="#projects" class="block py-2">Projects</a></li>
+          <li>
+            <a href="#investors" class="block py-2">Investor Resources</a>
+          </li>
+          <li><a href="#blog" class="block py-2">Blog</a></li>
+          <li><a href="#contact" class="block py-2">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
 
-        <!-- Cookie Banner -->
-        <div id="cookie-banner" class="fixed hidden bottom-4 inset-x-4 bg-[#f9b732] text-gray-800 border p-4 rounded shadow-lg z-50">
-            <p class="mb-2">We use cookies to improve your experience. Accept?</p>
-            <button id="accept-cookies" class="px-4 py-2 bg-green-700 text-white rounded">Accept</button>
+    <!-- Cookie Banner -->
+    <div
+      id="cookie-banner"
+      class="fixed hidden bottom-4 inset-x-4 bg-[#f9b732] text-gray-800 border p-4 rounded shadow-lg z-50"
+    >
+      <p class="mb-2">We use cookies to improve your experience. Accept?</p>
+      <button
+        id="accept-cookies"
+        class="px-4 py-2 bg-green-700 text-white rounded"
+      >
+        Accept
+      </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="home relative text-[#f59c21] slide-images"
+      data-aos="fade-down"
+      data-aos-duration="1000"
+    >
+      <div id="hero-bg" class="hero-bg"></div>
+      <div class="hero-overlay">
+        <h1 class="hero-title">Paradise Light Homes</h1>
+        <h2 class="hero-subtitle">“Get Smart Assets. For Smarter Growth”</h2>
+        <a href="#projects" class="hero-btn">See Projects</a>
+        <a href="{{ url_for('verifier') }}"
+          ><button class="hero-hidden-btn">⚙️</button></a
+        >
+      </div>
+      <script>
+        const heroImages = [
+          "{{ url_for('static', filename='img/heroimage1.jpg') }}",
+          "{{ url_for('static', filename='img/heroimage2.jpg') }}",
+        ];
+        let heroIndex = 0;
+        function slideHeroImages() {
+          const heroBg = document.getElementById("hero-bg");
+          heroBg.style.backgroundImage = `url('${heroImages[heroIndex]}')`;
+          heroIndex = (heroIndex + 1) % heroImages.length;
+        }
+        setInterval(slideHeroImages, 5000);
+        window.addEventListener("DOMContentLoaded", slideHeroImages);
+      </script>
+    </section>
+
+    <!-- About Us -->
+    <section
+      id="about"
+      class="px-6 py-12 max-w-5xl mx-auto flex flex-wrap gap-6"
+      data-aos="fade-up"
+      data-aos-duration="1000"
+    >
+      <div class="card flex-1 basis-80 min-w-[250px]">
+        <h3 class="text-3xl font-extrabold">About Us</h3>
+        <br />
+        <p class="card_text">
+          Loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua...
+        </p>
+      </div>
+
+      <div class="card flex-1 basis-80 min-w-[250px]">
+        <h3 class="text-3xl font-extrabold">Our Mission</h3>
+        <br />
+        <p class="card_text">
+          Loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua...
+        </p>
+      </div>
+
+      <div class="card flex-1 basis-80 min-w-[250px]">
+        <h3 class="text-3xl font-extrabold">Our Vision</h3>
+        <br />
+        <p class="card_text">
+          Loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua...
+        </p>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section
+      id="projects"
+      class="px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#9df35b]"
+    >
+      <h2 class="text-3xl font-bold mb-8">Our Projects</h2>
+      <div
+        id="projects-grid"
+        class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        data-aos="fade-left"
+        data-aos-duration="1000"
+      >
+        <!-- JS will inject project cards here -->
+        <div
+          class="col-span-full text-center text-gray-500"
+          id="projects-loading"
+        >
+          Loading projects…
         </div>
+      </div>
+    </section>
 
-        
-        <!-- Hero Section -->
-            <section id="home" class="home relative text-[#f59c21] slide-images" data-aos="fade-down" data-aos-duration="1000">
-                <div id="hero-bg" class="hero-bg"></div>
-                <div class="hero-overlay">
-                    <h1 class="hero-title">Paradise Light Homes</h1>
-                    <h2 class="hero-subtitle">“Get Smart Assets. For Smarter Growth”</h2>
-                    <a href="#projects" class="hero-btn">See Projects</a>
-                    <a href="{{ url_for('verifier') }}"><button class="hero-hidden-btn">⚙️</button></a>
-                </div>
-                <script>
-                    const heroImages = [
-                        "{{ url_for('static', filename='img/heroimage1.jpg') }}",
-                        "{{ url_for('static', filename='img/heroimage2.jpg') }}",
-                        
-                    ];
-                    let heroIndex = 0;
-                    function slideHeroImages() {
-                        const heroBg = document.getElementById('hero-bg');
-                        heroBg.style.backgroundImage = `url('${heroImages[heroIndex]}')`;
-                        heroIndex = (heroIndex + 1) % heroImages.length;
-                    }
-                    setInterval(slideHeroImages, 5000);
-                    window.addEventListener('DOMContentLoaded', slideHeroImages);
-                </script>
-            </section>
+    <!-- Investor Resources -->
+    <section
+      id="investors"
+      class="px-6 py-12 max-w-6xl mx-auto rounded-lg shadow"
+      data-aos="fade-up"
+      data-aos-duration="1000"
+    >
+      <h2 class="text-3xl font-bold mb-6">Investor Resources</h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5 mb-12">
+        <div class="flex flex-col items-center text-center">
+          <img
+            src="{{ url_for('static', filename='img/IRIimg1.png') }}"
+            alt="Land Security Icon"
+            class="h-16 w-16 mb-3"
+          />
+          <h3 class="font-semibold">Land Security</h3>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <img
+            src="{{ url_for('static', filename='img/IRIimg2.png') }}"
+            alt="ROI Expectations Icon"
+            class="h-16 w-16 mb-3"
+          />
+          <h3 class="font-semibold">ROI Expectations</h3>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <img
+            src="{{ url_for('static', filename='img/IRIimg3.png') }}"
+            alt="Resale Process Icon"
+            class="h-16 w-16 mb-3"
+          />
+          <h3 class="font-semibold">Resale Process</h3>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <img
+            src="{{ url_for('static', filename='img/IRIimg4.png') }}"
+            alt="Document Checklist Icon"
+            class="h-16 w-16 mb-3"
+          />
+          <h3 class="font-semibold">Document Checklist</h3>
+        </div>
+        <div class="flex flex-col items-center text-center">
+          <img
+            src="{{ url_for('static', filename='img/IRIimg5.png') }}"
+            alt="Download Prospectus Icon"
+            class="h-16 w-16 mb-3"
+          />
+          <h3 class="font-semibold">Download Prospectus</h3>
+        </div>
+      </div>
 
-        <!-- About Us -->
-        <section id="about" class="px-6 py-12 max-w-5xl mx-auto " data-aos="fade-up" data-aos-duration="1000">
-            <h2 class="text-4xl text-center font-bold mb-6">About Us</h2>
-            <p class="text-1xl text-center mb-4">This is about Paradise Light Homes</p>
-            <div class="w-full space-y-4">
-                <div>
-                    <h3 class="text-3xl text-center font-bold">Our Mission</h3>
-                    <p class="text-1xl text-center">This is our Mission.</p>
-                </div>
-                <div>
-                    <h3 class="text-3xl text-center font-bold">Our Vision</h3>
-                    <p class="text-1xl text-center"> To be a leader in sustainable land investment, providing opportunities that foster growth, prosperity, and environmental stewardship.</p>
-                </div>
-            </div>
-        </section>
+      <!-- ROI Infographic -->
+      <div class="mb-12">
+        <h3 class="text-2xl font-semibold mb-4">ROI Infographic</h3>
+        <img
+          src="{{ url_for('static', filename='img/ROIinfographic.png') }}"
+          alt="Return on Investment Infographic"
+          class="w-full rounded shadow"
+        />
+      </div>
 
-        <!-- Projects -->
-        <section id="projects" class="px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#9df35b]">
-            <h2 class="text-3xl font-bold mb-8">Our Projects</h2>
-            <div id="projects-grid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 " data-aos="fade-left" data-aos-duration="1000">
-                <!-- JS will inject project cards here -->
-                <div class="col-span-full text-center text-gray-500" id="projects-loading">Loading projects…</div>
-            </div>
-        </section>
-
-        <!-- Investor Resources -->
-        <section id="investors" class="px-6 py-12 max-w-6xl mx-auto rounded-lg shadow" data-aos="fade-up" data-aos-duration="1000">
-            <h2 class="text-3xl font-bold mb-6">Investor Resources</h2>
-            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5 mb-12">
-                <div class="flex flex-col items-center text-center">
-                    <img src="{{ url_for('static', filename='img/IRIimg1.png') }}" alt="Land Security Icon" class="h-16 w-16 mb-3" />
-                    <h3 class="font-semibold">Land Security</h3>
-                </div>
-                <div class="flex flex-col items-center text-center">
-                    <img src="{{ url_for('static', filename='img/IRIimg2.png') }}" alt="ROI Expectations Icon" class="h-16 w-16 mb-3" />
-                    <h3 class="font-semibold">ROI Expectations</h3>
-                </div>
-                <div class="flex flex-col items-center text-center">
-                    <img src="{{ url_for('static', filename='img/IRIimg3.png') }}" alt="Resale Process Icon" class="h-16 w-16 mb-3" />
-                    <h3 class="font-semibold">Resale Process</h3>
-                </div>
-                <div class="flex flex-col items-center text-center">
-                    <img src="{{ url_for('static', filename='img/IRIimg4.png') }}" alt="Document Checklist Icon" class="h-16 w-16 mb-3" />
-                    <h3 class="font-semibold">Document Checklist</h3>
-                </div>
-                <div class="flex flex-col items-center text-center">
-                    <img src="{{ url_for('static', filename='img/IRIimg5.png') }}" alt="Download Prospectus Icon" class="h-16 w-16 mb-3" />
-                    <h3 class="font-semibold">Download Prospectus</h3>
-                </div>
-            </div>
-
-            <!-- ROI Infographic -->
-            <div class="mb-12">
-                <h3 class="text-2xl font-semibold mb-4">ROI Infographic</h3>
-                <img src="{{ url_for('static', filename='img/ROIinfographic.png') }}" alt="Return on Investment Infographic" class="w-full rounded shadow" />
-            </div>
-
-                <!-- ROI Calculator -->
-        <div id="roi-calculator" class="mt-8 p-6 rounded-lg shadow">
+      <!-- ROI Calculator -->
+      <div id="roi-calculator" class="mt-8 p-6 rounded-lg shadow">
         <h3 class="text-2xl font-semibold mb-4">ROI Calculator</h3>
         <div class="grid gap-4 md:grid-cols-3 items-end">
-                
-                <!-- Unit Selector -->
-                <div>
-                <label for="unit" class="block mb-1 font-medium">Unit</label>
-                <select id="unit" class="text-[#226614] border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#73c13e]">
-                        <option value="plots">Plots (1 plot = 500sqm)</option>
-                        <option value="acres">Acres (1 acre = 6 plots)</option>
-                        <option value="hectares">Hectares (1 hectare = 15 plots or 2.5 acres)</option>
-                </select>
-                </div>
+          <!-- Unit Selector -->
+          <div>
+            <label for="unit" class="block mb-1 font-medium">Unit</label>
+            <select
+              id="unit"
+              class="text-[#226614] border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#73c13e]"
+            >
+              <option value="plots">Plots (1 plot = 500sqm)</option>
+              <option value="acres">Acres (1 acre = 6 plots)</option>
+              <option value="hectares">
+                Hectares (1 hectare = 15 plots or 2.5 acres)
+              </option>
+            </select>
+          </div>
 
-                <!-- Area Input -->
-                <div id="area-input">
-                <label for="area" class="block mb-1 font-medium">Enter Area</label>
-                <input type="number" id="area" placeholder="e.g. 6" class="text-[#226614] border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#73c13e]" />
-                </div>
+          <!-- Area Input -->
+          <div id="area-input">
+            <label for="area" class="block mb-1 font-medium">Enter Area</label>
+            <input
+              type="number"
+              id="area"
+              placeholder="e.g. 6"
+              class="text-[#226614] border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#73c13e]"
+            />
+          </div>
 
-                <!-- Calculate Button -->
-                <div>
-                <button onclick="calculateROI()" class="w-full bg-green-700 text-white px-4 py-2 rounded font-semibold hover:bg-green-800 transition">Calculate</button>
-                </div>
+          <!-- Calculate Button -->
+          <div>
+            <button
+              onclick="calculateROI()"
+              class="w-full bg-green-700 text-white px-4 py-2 rounded font-semibold hover:bg-green-800 transition"
+            >
+              Calculate
+            </button>
+          </div>
         </div>
 
         <!-- Result -->
         <p id="roi-result" class="mt-4 text-lg font-medium"></p>
+      </div>
+    </section>
+
+    <!-- Blog & News -->
+    <section
+      id="blog"
+      class="px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#1f2937]"
+      data-aos="fade-down"
+      data-aos-duration="1000"
+    >
+      <h2 class="text-3xl font-bold mb-8 text-[#f59c21]">Blog & News</h2>
+      <div id="blog-grid" class="grid gap-8 md:grid-cols-2">
+        <!-- JS will inject blog posts here -->
+        <div class="col-span-full text-center text-gray-500" id="blog-loading">
+          Loading blog posts…
         </div>
-        </section>
+      </div>
+    </section>
 
-        <!-- Blog & News -->
-        <section id="blog" class=" px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#1f2937]" data-aos="fade-down" data-aos-duration="1000">
-            <h2 class="text-3xl font-bold mb-8 text-[#f59c21]">Blog & News</h2>
-            <div id="blog-grid" class="grid gap-8 md:grid-cols-2">
-                <!-- JS will inject blog posts here -->
-                <div class="col-span-full text-center text-gray-500" id="blog-loading">Loading blog posts…</div>
-            </div>
-        </section>
+    <!-- Contact us -->
+    <section
+      id="contact"
+      class="ctform px-6 py-12 max-w-6xl mx-auto rounded-lg shadow-lg"
+      data-aos="fade-down"
+      data-aos-duration="1000"
+    >
+      <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
+      <div class="grid gap-8 md:grid-cols-2">
+        <form
+          id="contact-form"
+          action="{{ url_for('contact') }}"
+          method="POST"
+          class="space-y-4"
+        >
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            required
+            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            required
+            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
+          />
+          <textarea
+            name="message"
+            rows="5"
+            placeholder="Your Message"
+            required
+            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
+          ></textarea>
+          <button
+            type="submit"
+            class="bg-[#226614] text-white px-6 py-3 rounded font-semibold hover:bg-[#111827] transition-all duration-300"
+          >
+            Send Message
+          </button>
+        </form>
 
-        <!-- Contact us -->
-        <section id="contact" class="ctform px-6 py-12 max-w-6xl mx-auto rounded-lg shadow-lg" data-aos="fade-down" data-aos-duration="1000">    
-        <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
-        <div class="grid gap-8 md:grid-cols-2">
-                <form id="contact-form" action="{{ url_for('contact') }}" method="POST" class="space-y-4">
-                <input type="text" name="name" placeholder="Your Name" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"/>
-                <input type="email" name="email" placeholder="Your Email" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"/>
-                <textarea name="message" rows="5"  placeholder="Your Message" required class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"></textarea>
-                <button type="submit" class="bg-[#226614] text-white px-6 py-3 rounded font-semibold hover:bg-[#111827] transition-all duration-300">Send Message</button>
-                </form>
+        <div class="space-y-6">
+          <div class="flex items-center space-x-3">
+            <img
+              src="{{ url_for('static', filename='img/phone-icon.png') }}"
+              alt="Phone icon"
+              class="h-6 w-6"
+            />
+            <a href="tel:+2348012345678" class="text-white font-medium"
+              >+234 801 234 5678</a
+            >
+          </div>
+          <div class="flex items-center space-x-3">
+            <img
+              src="{{ url_for('static', filename='img/email-icon.png') }}"
+              alt="Email icon"
+              class="h-6 w-6"
+            />
+            <a
+              href="mailto:info@paradiselighthomes.ng"
+              class="text-white font-medium"
+              >info@paradiselighthomes.ng</a
+            >
+          </div>
+          <div class="flex items-center space-x-3">
+            <img
+              src="{{ url_for('static', filename='img/whatsapp-icon.svg') }}"
+              alt="WhatsApp icon"
+              class="h-6 w-6"
+            />
+            <a
+              href="https://wa.me/2348012345678"
+              target="_blank"
+              class="text-white font-medium"
+              >Chat on WhatsApp</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
 
-                <div class="space-y-6">
-                    <div class="flex items-center space-x-3">
-                        <img src="{{ url_for('static', filename='img/phone-icon.png') }}" alt="Phone icon" class="h-6 w-6" />
-                        <a href="tel:+2348012345678" class="text-white font-medium">+234 801 234 5678</a>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <img src="{{ url_for('static', filename='img/email-icon.png') }}" alt="Email icon" class="h-6 w-6" />
-                        <a href="mailto:info@paradiselighthomes.ng" class="text-white font-medium">info@paradiselighthomes.ng</a>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <img src="{{ url_for('static', filename='img/whatsapp-icon.svg') }}" alt="WhatsApp icon" class="h-6 w-6" />
-                        <a href="https://wa.me/2348012345678" target="_blank" class="text-white font-medium">Chat on WhatsApp</a>
-                    </div>
-                    <div class="mt-4">
-                        <a href="https://www.google.com/maps/search/Alabata,+Odeda+Local+Government,+Abeokuta/@7.2270862,3.4573618,3276m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI1MDYyNi4wIKXMDSoASAFQAw%3D%3D" target="_blank">
-                            <img src="{{ url_for('static', filename='img/maps.png') }}" alt="Map showing Paradise Light Homes location" class="w-full rounded shadow-md" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="mt-4 p-8 m-16 shadow-lg">
+      <h2 class="text-3xl font-extrabold text-center">VISIT US HERE</h2>
+      <br />
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20858.144177834118!2d3.444607431758269!3d7.220917162400085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103a37ba6f46b327%3A0xe1ee8cb561eab2a8!2sFunaab%20Zoo%20Park!5e0!3m2!1sen!2sng!4v1759134124614!5m2!1sen!2sng"
+        width="100%"
+        height="400"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
 
+    <!-- Footer -->
+    <footer id="footer" class="bg-[#226614] text-gray-100 py-12">
+      <div
+        class="max-w-6xl mx-auto px-6 grid gap-8 md:grid-cols-3 flex justify-between"
+      >
+        <div style="width: 120%; margin-top: auto">
+          <h4 class="font-semibold mb-3 text-[#ffca61] thth">Quick Links</h4>
+          <ul class="space-y-2 grid grid-cols-2">
+            <li><a href="#home" class="hover:underline text-xl">Home</a></li>
+            <li>
+              <a href="#about" class="hover:underline text-xl">About Us</a>
+            </li>
+            <li>
+              <a href="#projects" class="hover:underline text-xl">Projects</a>
+            </li>
+            <li>
+              <a href="#investors" class="hover:underline text-xl"
+                >Investor Resources</a
+              >
+            </li>
+            <li>
+              <a href="#blog" class="hover:underline text-xl">Blog & News</a>
+            </li>
+            <li>
+              <a href="#contact" class="hover:underline text-xl">Contact Us</a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline text-xl">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#" class="hover:underline text-xl">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
 
-        <!-- Footer -->
-        <footer id="footer" class="bg-[#226614] text-gray-100 py-12">
-            <div class="max-w-6xl mx-auto px-6 grid gap-8 md:grid-cols-3 flex justify-between">
-                <div style="width: 120%; margin-top: auto;">
-                    <h4 class="font-semibold mb-3 text-[#ffca61] thth">Quick Links</h4>
-                    <ul class="space-y-2 grid grid-cols-2">
-                        <li><a href="#home" class="hover:underline text-xl">Home</a></li>
-                        <li><a href="#about" class="hover:underline text-xl">About Us</a></li>
-                        <li><a href="#projects" class="hover:underline text-xl">Projects</a></li>
-                        <li><a href="#investors" class="hover:underline text-xl">Investor Resources</a></li>
-                        <li><a href="#blog" class="hover:underline text-xl">Blog & News</a></li>
-                        <li><a href="#contact" class="hover:underline text-xl">Contact Us</a></li>
-                        <li><a href="#" class="hover:underline text-xl">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:underline text-xl">Terms of Use</a></li>
-                    </ul>
-                </div>
+        <div class="items-center">
+          <h4 class="font-semibold mb-3 text-[#ffca61] thth">
+            Connect With Us
+          </h4>
+          <br />
+          <div class="flex space-x-4 mb-4">
+            <a href="#" aria-label="Facebook"
+              ><img
+                src="{{ url_for('static', filename='img/facebook-icon.svg') }}"
+                alt="Facebook"
+                class="h-6 w-6"
+            /></a>
+            <a href="#" aria-label="Twitter"
+              ><img
+                src="{{ url_for('static', filename='img/twitter-icon.svg') }}"
+                alt="Twitter"
+                class="h-6 w-6"
+            /></a>
+            <a href="#" aria-label="LinkedIn"
+              ><img
+                src="{{ url_for('static', filename='img/linkedin-icon.svg') }}"
+                alt="LinkedIn"
+                class="h-6 w-6"
+            /></a>
+            <a href="#" aria-label="Instagram"
+              ><img
+                src="{{ url_for('static', filename='img/instagram-icon.svg') }}"
+                alt="Instagram"
+                class="h-6 w-6"
+            /></a>
+          </div>
+        </div>
 
-                <div class="items-center">
-                    <h4 class="font-semibold mb-3 text-[#ffca61] thth">Connect With Us</h4><br>
-                    <div class="flex space-x-4 mb-4">
-                        <a href="#" aria-label="Facebook"><img src="{{ url_for('static', filename='img/facebook-icon.svg') }}" alt="Facebook" class="h-6 w-6" /></a>
-                        <a href="#" aria-label="Twitter"><img src="{{ url_for('static', filename='img/twitter-icon.svg') }}" alt="Twitter" class="h-6 w-6" /></a>
-                        <a href="#" aria-label="LinkedIn"><img src="{{ url_for('static', filename='img/linkedin-icon.svg') }}" alt="LinkedIn" class="h-6 w-6" /></a>
-                        <a href="#" aria-label="Instagram"><img src="{{ url_for('static', filename='img/instagram-icon.svg') }}" alt="Instagram" class="h-6 w-6" /></a>
-                    </div>
-                </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-[#ffca61] thth">Stay Updated</h4>
+          <p class="mb-4 text-xl">
+            Subscribe to our newsletter for the latest news and opportunities.
+          </p>
+          <form
+            action="{{ url_for('subscribe') }}"
+            method="POST"
+            class="flex flex-col sm:flex-row gap-2"
+          >
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              required
+              class="w-full px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white text-gray-800"
+            />
+            <button
+              type="submit"
+              class="bg-white text-green-800 px-4 py-2 rounded font-semibold hover:bg-green-800 hover:text-white transition-all duration-300"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+      <br />
 
-                <div>
-                    <h4 class="font-semibold mb-3 text-[#ffca61] thth">Stay Updated</h4>
-                    <p class="mb-4 text-xl">Subscribe to our newsletter for the latest news and opportunities.</p>
-                    <form action="{{ url_for('subscribe') }}" method="POST" class="flex flex-col sm:flex-row gap-2">
-                        <input type="email" name="email" placeholder="Your Email" required class="w-full px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white text-gray-800" />
-                        <button type="submit" class="bg-white text-green-800 px-4 py-2 rounded font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">Subscribe</button>
-                    </form>
-                </div>
+      <p class="text-sm text-center">
+        © 2025 Paradise Light Homes LTD. All rights reserved.
+      </p>
+    </footer>
 
-            </div>
-        <br>
-
-        <p class="text-sm text-center">© 2025 Paradise Light Homes LTD. All rights reserved.</p>
-
-        </footer>
-
-        <script src="{{ url_for('static', filename='data/jsonhandler.js') }}">
-        </script>
-
-    </body>
+    <script src="{{ url_for('static', filename='data/jsonhandler.js') }}"></script>
+  </body>
 </html>
