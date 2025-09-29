@@ -1,0 +1,67 @@
+{
+  "project_pages": [
+    {
+      "project_id": "proj-1",
+      "slug": "palm-villa-1",
+      "title": "Palm Villa 1",
+      "cover": "static/img/palmvilla1.png",
+      "excerpt": "Prime oil-palm farmland converted into investor-ready estate.",
+      "sections": [],
+      "created_at": "2025-09-27T00:00:00Z",
+      "updated_at": "2025-09-27T15:13:23.772584Z"
+    },
+    {
+      "project_id": "proj-ff10c4a6",
+      "slug": "residential-estates",
+      "title": "Future Residential Estates",
+      "excerpt": "Visionary communities designed for sustainable living.",
+      "sections": [
+        {
+          "id": "sec-bxz6us9b",
+          "type": "text",
+          "header": "grom lorem ipsum",
+          "content": "two bit, three bit"
+        },
+        {
+          "id": "sec-7mvscy5y",
+          "type": "custom",
+          "data": {
+            "id": "sec-np46yb75",
+            "type": "image",
+            "title": "palm villa arial view",
+            "caption": "Our Palm Villa Project Drone Shot",
+            "cover": "",
+            "text": "Our Palm Villa Project Drone Shot"
+          },
+          "content": ""
+        }
+      ],
+      "created_at": "2025-09-27T13:08:32.785093Z",
+      "updated_at": "2025-09-27T13:08:32.785093Z"
+    },
+    {
+      "project_id": "proj-e2498429",
+      "slug": "example",
+      "title": "example",
+      "excerpt": "example excerpt",
+      "sections": [
+        {
+          "id": "sec-m8zrbz96",
+          "type": "gallery",
+          "images": [
+            {
+              "src": "static/uploads/99d7f47aaef04b00b2e67e0933b24eae_img_lights.jpg",
+              "caption": ""
+            },
+            {
+              "src": "static/uploads/b1cdb8608f654980be8ad4a830bca38b_img_mountains.jpg",
+              "caption": ""
+            }
+          ]
+        }
+      ],
+      "created_at": "2025-09-27T13:56:23.302638Z",
+      "updated_at": "2025-09-27T15:08:38.620205Z"
+    }
+  ]
+}

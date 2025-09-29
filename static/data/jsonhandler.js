@@ -58,10 +58,10 @@
         return;
       }
       container.innerHTML = items.map(p => {
-        const cover = p.cover || 'img/placeholder.png';
+        const cover = p.cover && p.cover.trim() ? p.cover : 'static/img/placeholder.png';
         const title = escapeHtml(p.title || p.header || '');
         const excerpt = escapeHtml(p.excerpt || '');
-        const link = p.link || ('/blog/' + (p.slug || ''));
+        const link = p.link || ('/projects/' + (p.slug || '')+'.html');
         return `
           <article class="card">
             <img src="${escapeHtml(cover)}" alt="${title}" loading="lazy" class="w-full h-48 object-cover rounded mb-4" />

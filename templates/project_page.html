@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ page_title | default(project.title) }} — {{ page_excerpt or project.excerpt }}</title>
+  <meta name="description" content="{{ page_excerpt or project.excerpt }}">
+  <meta name="robots" content="index,follow">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", () => AOS.init({ once: false }));</script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ url_for('static', filename='data/script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ppstyle.css') }}">
+</head>
+<body>
+    
+
+    <!-- page loader-->
+        <div id="pageloader" style="position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; background: linear-gradient(135deg, #ffca61, #226614); display: flex; align-items: center; justify-content: center;">
+        <div class="spin"></div>
+        </div>
+
+    <!-- Header -->
+    <header class="relative px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg">
+    <a href="{{ url_for('index') }}" class="mx-auto md:mx-0">
+    <img src="{{ url_for('static', filename='img/horizontal logo whitePLH.png') }}" alt="Palm Leaf Homes" class="h-12 md:h-12 w-auto" />
+    </a>
+    </header>
+
+
+    {# HERO — uses the project's cover or fallback #}
+
+    <section class="hero" style="background: url('{{ project.cover or url_for('static', filename='img/placeholder.png') }}')">
+        <div class="hero-inner">
+        <div class="badges">
+        {% if project.is_sold %}<div class="badge">SOLD</div>{% elif project.is_coming %}<div class="badge">COMING</div>{% endif %}
+        {% if project.published %}<div class="badge">LIVE</div>{% endif %}
+        </div>
+
+        <h1>{{ page_title or project.title }}</h1>
+        <p>{{ page_excerpt or project.excerpt }}</p>
+
+        <div class="cta">
+        <a class="btn" href="{{ url_for('index') }}#contact">Enquire</a>
+        <a class="btn ghost" href="{{ url_for('index') }}#footer">Subscribe</a>
+        <button class="btn ghost" onclick="copyLink()">Copy Link</button>
+        {% if session.get('user') %}
+            <a class="btn" href="{{ url_for('settings') }}">Edit</a>
+        {% endif %}
+        </div>
+    </div>
+    </section>
+
+    <div class="layout">
+    <main class="main" aria-labelledby="page-heading">
+        <h2 id="page-heading" class="title">Overview</h2>
+        <p class="text">{{ page_excerpt or project.excerpt }}</p>
+
+        {# Render sections passed from the editor. Support multiple types. #}
+        {% for s in sections %}
+        <article class="section" id="{{ s.id | e }}">
+            {% if s.type == 'hero' %}
+            <div style="border-radius:10px;overflow:hidden" class="img-wrap">
+                <img src="{{ s.cover or project.cover or url_for('static', filename='img/placeholder.png') }}" alt="{{ s.title or project.title }}" loading="lazy">
+            </div>
+            {% if s.title %}<h3 class="title">{{ s.title }}</h3>{% endif %}
+            {% if s.subheader %}<p class="meta">{{ s.subheader }}</p>{% endif %}
+            {% if s.html %}
+                <div class="text">{{ s.html | safe }}</div>
+            {% elif s.text %}
+                <div class="text">{{ s.text }}</div>
+            {% endif %}
+
+            {% elif s.type == 'image' %}
+            {% if s.cover %}
+                <div class="img-wrap"><img src="{{ s.cover }}" alt="{{ s.caption or s.title or project.title }}" loading="lazy" onclick="openModal(this.src)"></div>
+                {% if s.title %}<h3 class="title">{{ s.title }}</h3>{% endif %}
+                {% if s.caption %}<p class="meta">{{ s.caption }}</p>{% endif %}
+                {% if s.text %}<div class="text">{{ s.text }}</div>{% endif %}
+            {% endif %}
+
+            {% elif s.type == 'gallery' %}
+            <div class="grid cols-3">
+                {% for im in s.images or [] %}
+                {% set src = (im.src if im is mapping else im) %}
+                <div class="img-wrap"><img src="{{ src }}" alt="{{ s.title or project.title }} image" loading="lazy" onclick="openModal(this.src)"></div>
+                {% endfor %}
+            </div>
+
+            {% elif s.type == 'features' %}
+            <h3 class="title">{{ s.title }}</h3>
+            <div class="features">
+                {% for item in s.items or [] %}
+                <div class="feature">
+                    <strong>{{ item.title or item.name }}</strong>
+                    {% if item.subtitle %}<div class="meta">{{ item.subtitle }}</div>{% endif %}
+                    {% if item.desc %}<div class="text">{{ item.desc }}</div>{% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {% else %}
+            {# generic text/content block — prefer already-rendered HTML from the editor #}
+            {% if s.html %}
+                <div class="text">{{ s.html | safe }}</div>
+            {% elif s.content %}
+                <div class="text">{{ s.content }}</div>
+            {% elif s.text %}
+                <div class="text">{{ s.text }}</div>
+            {% endif %}
+            {% endif %}
+        </article>
+        {% else %}
+        <p class="meta">No sections created for this project yet. Add a hero, some images and features from the editor.</p>
+        {% endfor %}
+
+        <hr style="margin:18px 0">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="share">
+            <strong>Share:</strong>
+            <button class="btn ghost" onclick="navigator.share ? navigator.share({title: '{{ page_title or project.title }}', url: location.href}) : copyLink()">Share</button>
+            <button class="btn ghost" onclick="copyLink()">Copy URL</button>
+        </div>
+        <div class="meta">Updated: {{ project.updated_at or project.created_at }}</div>
+        </div>
+    </main>
+
+    <aside class="aside" aria-labelledby="details-heading">
+        <h3 id="details-heading">Project details</h3>
+        <div class="meta">Project ID: <code>{{ project.id }}</code></div>
+        <div class="meta">Status:
+        {% if project.is_sold %}
+            Sold
+        {% elif project.is_coming %}
+            Coming
+        {% elif project.published %}
+            Published
+        {% else %}
+            Draft
+        {% endif %}
+        </div>
+        {% if project.link %}<div class="meta">Link: <a href="{{ project.link }}">{{ project.link }}</a></div>{% endif %}
+
+        <div style="margin-top:12px">
+        <strong>Quick facts</strong>
+        <ul style="padding-left:18px;margin:8px 0 0 0;color:var(--muted)">
+            <li>Clean JSON-driven content — editable in the CMS</li>
+            <li>Markdown-friendly text sections</li>
+            <li>Lazy-loaded images for perf</li>
+        </ul>
+        </div>
+
+        <div style="margin-top:14px">
+        <a class="btn" href="{{ url_for('index') }}#contact">Enquire about this</a>
+        </div>
+
+        {% if session.get('user') %}
+        <div style="margin-top:10px;font-size:13px;color:var(--muted)">Logged in as {{ session.get('user') }}</div>
+        {% endif %}
+    </aside>
+    </div>
+
+<footer id="footer" class="bg-[#226614] text-gray-100 py-12">
+            <div class="max-w-6xl mx-auto px-6 grid gap-8 md:grid-cols-3 flex justify-between">
+                <div class="items-center">
+                    <h4 class="font-semibold mb-3 text-[#ffca61] thth">Connect With Us</h4><br>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" aria-label="Facebook"><img src="{{ url_for('static', filename='img/facebook-icon.svg') }}" alt="Facebook" class="h-6 w-6" /></a>
+                        <a href="#" aria-label="Twitter"><img src="{{ url_for('static', filename='img/twitter-icon.svg') }}" alt="Twitter" class="h-6 w-6" /></a>
+                        <a href="#" aria-label="LinkedIn"><img src="{{ url_for('static', filename='img/linkedin-icon.svg') }}" alt="LinkedIn" class="h-6 w-6" /></a>
+                        <a href="#" aria-label="Instagram"><img src="{{ url_for('static', filename='img/instagram-icon.svg') }}" alt="Instagram" class="h-6 w-6" /></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-3 text-[#ffca61] thth">Stay Updated</h4>
+                    <p class="mb-4 text-xl">Subscribe to our newsletter for the latest news and opportunities.</p>
+                    <form action="" method="POST" class="flex flex-col sm:flex-row gap-2">
+                        <input type="email" name="email" placeholder="Your Email" required class="w-full px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white text-gray-800" />
+                        <button type="submit" class="bg-white text-green-800 px-4 py-2 rounded font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">Subscribe</button>
+                    </form>
+                </div>
+
+            </div>
+        <br>
+
+        <p class="text-sm text-center">© 2025 Paradise Light Homes LTD. All rights reserved.</p>
+
+        </footer>  </div>
+
+  {# Image modal #}
+  <div id="img-modal" class="modal" onclick="closeModal(event)">
+    <img id="img-modal-img" src="" alt="preview">
+  </div>
+
+  <script>
+    function copyLink(){
+      const url = location.href;
+      if(navigator.clipboard){ navigator.clipboard.writeText(url).then(()=> alert('Link copied!')) }
+      else{ prompt('Copy this URL', url) }
+    }
+
+    function openModal(src){
+      document.getElementById('img-modal-img').src = src;
+      document.getElementById('img-modal').classList.add('open');
+    }
+    function closeModal(e){ if(e.target.id === 'img-modal' || e.target.id === 'img-modal-img') { document.getElementById('img-modal').classList.remove('open'); } }
+  </script>
+</body>
+</html>

@@ -12,9 +12,9 @@
     .actions{display:flex;gap:.5rem}
 
     /* simple modal */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4)}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.4);padding:1rem;overflow:auto}
     .modal.open{display:flex}
-    .modal .panel{background:#fff;padding:1rem;border-radius:8px;max-width:760px;width:100%}
+    .modal .panel{background:#fff;padding:1rem;border-radius:8px;max-width:1000px;width:100%}
 
     /* switches */
     .switch{display:inline-block;position:relative;width:46px;height:26px}
@@ -27,6 +27,17 @@
     .btn{padding:.4rem .65rem;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer}
     .btn-primary{background:#226614;color:#fff;border:none}
     .btn-danger{background:#ff3b30;color:#fff;border:none}
+
+    /* Page builder list/controls */
+    .section-card{border:1px solid #ddd;border-radius:6px;padding:.5rem;margin-bottom:.5rem;display:flex;gap:.5rem;align-items:flex-start}
+    .section-meta{flex:1}
+    .section-actions{display:flex;flex-direction:column;gap:.25rem}
+    .small{font-size:.85rem;color:#666}
+    label.small-label{display:block;font-size:.85rem;margin-bottom:.25rem;}
+
+    .field{display:block;margin-bottom:.5rem}
+    .field input[type="text"], .field textarea { width:100%; padding:.4rem; border:1px solid #ccc; border-radius:6px }
+    .inline{display:inline-block;vertical-align:middle}
   </style>
 </head>
 <body>
@@ -40,6 +51,7 @@
     </div>
   </div>
 
+  <!-- Projects -->
   <section>
     <div style="display:flex;justify-content:space-between;align-items:center">
       <h3>Projects</h3>
@@ -68,6 +80,7 @@
           </td>
           <td class="actions">
             <button class="btn edit-project" data-item='{{ p|tojson|e }}'>Edit</button>
+            <button class="btn btn-primary page-project" data-item='{{ p|tojson|e }}'>Create/Edit Page</button>
             <button class="btn btn-danger delete-project" data-id="{{ p.id }}">Delete</button>
           </td>
         </tr>
@@ -76,6 +89,7 @@
     </table>
   </section>
 
+  <!-- Blog Posts (unchanged) -->
   <section>
     <div style="display:flex;justify-content:space-between;align-items:center">
       <h3>Blog Posts</h3>
@@ -103,6 +117,7 @@
       </tbody>
     </table>
   </section>
+
 
   <!-- Project Modal -->
   <div id="modal-project" class="modal" aria-hidden="true">
@@ -279,6 +294,450 @@
         form.submit();
       });
     });
+  </script>
+  
+  <!-- Page Builder Modal -->
+  <div id="modal-page" class="modal" aria-hidden="true">
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+        <h3 id="page-modal-title">Create Page</h3>
+        <div>
+          <button id="page-preview" class="btn">Preview</button>
+          <button id="page-save" class="btn btn-primary">Save Page</button>
+          <button id="page-cancel" class="btn">Close</button>
+        </div>
+      </div>
+
+      <input type="hidden" id="page-project-id">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+        <label class="field">Page Title<input type="text" id="page-title" /></label>
+        <label class="field">Slug<input type="text" id="page-slug" /></label>
+      </div>
+      <label class="field">Excerpt<textarea id="page-excerpt" rows="2"></textarea></label>
+
+      <div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem">
+        <label class="small-label">Add Section</label>
+        <select id="new-section-type">
+          <option value="hero">hero</option>
+          <option value="text">text</option>
+          <option value="image">image</option>
+          <option value="gallery">gallery</option>
+          <option value="feature">feature</option>
+          <option value="custom">custom</option>
+        </select>
+        <button id="add-section" class="btn">Add</button>
+      </div>
+
+      <div id="sections-container">
+        <!-- section cards are rendered here -->
+      </div>
+
+      <div style="margin-top:.5rem;font-size:.85rem;color:#666">
+        Tip: For text blocks use Markdown. For galleries choose multiple images and captions.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------------------------
+    // Page Builder client-side state
+    // ---------------------------
+    let currentPage = { project_id: null, slug: '', title: '', excerpt: '', sections: [] };
+
+    function openModal(id){document.getElementById(id).classList.add('open')}
+    function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+    // Helper: render the sections list in modal
+    function renderSections() {
+    const sectionsEl = document.getElementById('sections-container');
+    sectionsEl.innerHTML = '';
+    currentPage.sections.forEach((s, idx) => {
+        const div = document.createElement('div');
+        div.className = 'section-card';
+        div.dataset.idx = idx;
+
+
+        // left meta
+        const meta = document.createElement('div');
+        meta.className = 'section-meta';
+        meta.innerHTML = `<strong>${escapeHtml(s.type)}</strong> <div class="small">${escapeHtml(s.subheader || s.header || s.title || '')}</div>`;
+
+        // preview small
+        if (s.cover) {
+          const img = document.createElement('img');
+          img.src = s.cover;
+          img.className = 'thumb';
+          img.style.width = '160px';
+          img.style.height = '80px';
+          img.style.objectFit = 'cover';
+          img.style.marginRight = '.5rem';
+          div.appendChild(img);
+        } else if (s.images && s.images.length) {
+          const img = document.createElement('img');
+          img.src = s.images[0].src || s.images[0];
+          img.className = 'thumb';
+          img.style.width = '160px';
+          img.style.height = '80px';
+          img.style.objectFit = 'cover';
+          img.style.marginRight = '.5rem';
+          div.appendChild(img);
+        }
+
+        div.appendChild(meta);
+
+        // actions
+        const actions = document.createElement('div');
+        actions.className = 'section-actions';
+
+        const up = document.createElement('button');
+        up.className = 'btn';
+        up.innerText = '↑';
+        up.onclick = () => { if (idx>0) { swapSections(idx, idx-1); } };
+
+        const down = document.createElement('button');
+        down.className = 'btn';
+        down.innerText = '↓';
+        down.onclick = () => { if (idx < currentPage.sections.length-1) { swapSections(idx, idx+1); } };
+
+        const edit = document.createElement('button');
+        edit.className = 'btn btn-primary';
+        edit.innerText = 'Edit';
+        edit.onclick = () => { editSection(idx); };
+
+        const del = document.createElement('button');
+        del.className = 'btn btn-danger';
+        del.innerText = 'Delete';
+        del.onclick = () => { if(confirm('Remove section?')) { currentPage.sections.splice(idx,1); renderSections(); } };
+
+        actions.appendChild(up);
+        actions.appendChild(down);
+        actions.appendChild(edit);
+        actions.appendChild(del);
+
+        div.appendChild(actions);
+        sectionsEl.appendChild(div);
+    });
+
+    if (currentPage.sections.length === 0) {
+        sectionsEl.innerHTML = '<div class="small">No sections yet — add one with the dropdown above.</div>';
+    }
+    }
+
+    function swapSections(a,b){
+      const tmp = currentPage.sections[a];
+      currentPage.sections[a] = currentPage.sections[b];
+      currentPage.sections[b] = tmp;
+      renderSections();
+    }
+
+    function escapeHtml(s){ if(s===undefined || s===null) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // Add section handler
+    document.getElementById('add-section').addEventListener('click', async () => {
+      const typ = document.getElementById('new-section-type').value || 'text';
+      const id = 'sec-' + Math.random().toString(36).slice(2,10);
+      let obj = { id: id, type: typ };
+
+      if (typ === 'hero') {
+        obj.title = '';
+        obj.subheader = '';
+        obj.cover = '';
+        obj.excerpt = '';
+      } else if (typ === 'text') {
+        obj.header = '';
+        obj.content = ''; // markdown
+      } else if (typ === 'image' || typ === 'feature') {
+        obj.title = '';
+        obj.caption = '';
+        obj.cover = '';
+        obj.text = '';
+      } else if (typ === 'gallery' || typ === 'carousel') {
+        obj.images = []; // array of { src, caption }
+      } else { // custom
+        obj.data = {};
+        obj.content = '';
+      }
+
+      currentPage.sections.push(obj);
+      renderSections();
+      // open editor for the new section
+      editSection(currentPage.sections.length - 1);
+    });
+
+    // Section editor: opens a small inline editor in place of the card
+    function editSection(idx){
+      const s = currentPage.sections[idx];
+      const container = document.getElementById('sections-container');
+      // create editor panel
+      const editor = document.createElement('div');
+      editor.style.border = '1px dashed #ccc';
+      editor.style.padding = '.5rem';
+      editor.style.marginBottom = '.5rem';
+      editor.style.background = '#fafafa';
+
+      const title = document.createElement('div');
+      title.innerHTML = `<strong>Editing: ${escapeHtml(s.type)}</strong>`;
+      editor.appendChild(title);
+
+      // type-specific fields
+      const makeInput = (labelText, idSuffix, value='', isTextarea=false) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'field';
+        const label = document.createElement('label');
+        label.innerText = labelText;
+        label.className = 'small-label';
+        const input = isTextarea ? document.createElement('textarea') : document.createElement('input');
+        if (!isTextarea) input.type = 'text';
+        input.id = `sec-${idx}-${idSuffix}`;
+        input.value = value || '';
+        if (isTextarea) input.rows = 4;
+        wrap.appendChild(label);
+        wrap.appendChild(input);
+        return wrap;
+      };
+
+      // helpers for uploads
+      const fileUploadElem = (labelText, onchangeFn) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'field';
+        const label = document.createElement('label');
+        label.innerText = labelText;
+        label.className = 'small-label';
+        const inp = document.createElement('input');
+        inp.type = 'file';
+        inp.accept = 'image/*';
+        inp.onchange = async (ev) => {
+          const f = ev.target.files[0];
+          if (!f) return;
+          const res = await uploadFile(f);
+          if (res && res.ok) {
+            onchangeFn(res.url);
+            renderSections();
+            // refresh editor UI (close & reopen)
+            editSection(idx);
+          } else {
+            alert('Upload failed: ' + (res && res.error ? res.error : 'unknown'));
+          }
+        };
+        wrap.appendChild(label);
+        wrap.appendChild(inp);
+        return wrap;
+      };
+
+      if (s.type === 'hero') {
+        editor.appendChild(makeInput('Hero Title','title', s.title || ''));
+        editor.appendChild(makeInput('Subheader','subheader', s.subheader || ''));
+        editor.appendChild(makeInput('Excerpt','excerpt', s.excerpt || '', true));
+        // cover upload
+        editor.appendChild(fileUploadElem('Upload Hero Cover (image)',url=>{ s.cover = url; }));
+        const preview = document.createElement('div');
+        preview.style.marginTop = '.5rem';
+        preview.innerHTML = s.cover ? `<img src="${s.cover}" style="max-width:260px;display:block"/>` : '<em>No cover</em>';
+        editor.appendChild(preview);
+        // Save / Cancel
+      } else if (s.type === 'text') {
+        editor.appendChild(makeInput('Header','header', s.header || ''));
+        editor.appendChild(makeInput('Content (Markdown)','content', s.content || '', true));
+      } else if (s.type === 'image' || s.type === 'feature') {
+        editor.appendChild(makeInput('Title','title', s.title || ''));
+        editor.appendChild(makeInput('Caption (italics)','caption', s.caption || ''));
+        editor.appendChild(makeInput('Text','text', s.text || '', true));
+        editor.appendChild(fileUploadElem('Upload Image','(url)=>{ s.cover = url; }'));
+        const pv = document.createElement('div');
+        pv.style.marginTop = '.5rem';
+        pv.innerHTML = s.cover ? `<img src="${s.cover}" style="max-width:260px;display:block"/>` : '<em>No image</em>';
+        editor.appendChild(pv);
+      } else if (s.type === 'gallery' || s.type === 'carousel') {
+        // list current images with caption, plus upload multiple
+        const list = document.createElement('div');
+        list.style.marginBottom = '.5rem';
+        list.innerHTML = '<strong>Images</strong>';
+        (s.images || []).forEach((im, imIdx) => {
+          const row = document.createElement('div');
+          row.style.display='flex';
+          row.style.gap='.5rem';
+          row.style.marginTop='.25rem';
+          const thumb = document.createElement('img');
+          thumb.src = (typeof im === 'string') ? im : (im.src || '');
+          thumb.style.width='120px'; thumb.style.height='70px'; thumb.style.objectFit='cover';
+          const cap = document.createElement('input');
+          cap.type='text';
+          cap.value = (typeof im === 'string') ? '' : (im.caption || '');
+          cap.style.flex='1';
+          cap.onchange = () => { if(typeof im === 'string'){ s.images[imIdx] = { src: im, caption: cap.value } } else { s.images[imIdx].caption = cap.value } };
+          const del = document.createElement('button');
+          del.className='btn btn-danger';
+          del.innerText='Remove';
+          del.onclick = () => { s.images.splice(imIdx,1); renderSections(); editSection(idx); };
+          row.appendChild(thumb); row.appendChild(cap); row.appendChild(del);
+          list.appendChild(row);
+        });
+        editor.appendChild(list);
+        // multi-upload
+        const multi = document.createElement('div');
+        multi.className='field';
+        const lbl = document.createElement('label'); lbl.className='small-label'; lbl.innerText = 'Add images';
+        const inp = document.createElement('input'); inp.type='file'; inp.multiple=true; inp.accept='image/*';
+        inp.onchange = async (ev) => {
+          const files = Array.from(ev.target.files);
+          for (const f of files) {
+            const resp = await uploadFile(f);
+            if (resp && resp.ok) {
+              s.images = s.images || [];
+              s.images.push({ src: resp.url, caption: '' });
+            } else {
+              alert('Upload failed for ' + f.name);
+            }
+          }
+          renderSections();
+          editSection(idx);
+        };
+        multi.appendChild(lbl); multi.appendChild(inp);
+        editor.appendChild(multi);
+      } else { // custom
+        editor.appendChild(makeInput('Content (JSON or text)','content', JSON.stringify(s.data || s.content || {}, null, 2), true));
+      }
+
+      // Save/Close controls for the section
+      const controls = document.createElement('div');
+      controls.style.display = 'flex'; controls.style.justifyContent='flex-end'; controls.style.gap='.5rem'; controls.style.marginTop='.5rem';
+      const saveBtn = document.createElement('button'); saveBtn.className = 'btn btn-primary'; saveBtn.innerText = 'Save';
+      const cancelBtn = document.createElement('button'); cancelBtn.className = 'btn'; cancelBtn.innerText = 'Cancel';
+      saveBtn.onclick = () => {
+        // collect fields back into s
+        if (s.type === 'hero') {
+          s.title = document.getElementById(`sec-${idx}-title`).value;
+          s.subheader = document.getElementById(`sec-${idx}-subheader`).value;
+          s.excerpt = document.getElementById(`sec-${idx}-excerpt`).value;
+        } else if (s.type === 'text') {
+          s.header = document.getElementById(`sec-${idx}-header`).value;
+          s.content = document.getElementById(`sec-${idx}-content`).value;
+        } else if (s.type === 'image' || s.type === 'feature') {
+          s.title = document.getElementById(`sec-${idx}-title`).value;
+          s.caption = document.getElementById(`sec-${idx}-caption`).value;
+          s.text = document.getElementById(`sec-${idx}-text`).value;
+        } else if (s.type === 'gallery' || s.type === 'carousel') {
+          // captions already captured via onchange above
+        } else {
+          // custom: try parse or store raw
+          try {
+            s.data = JSON.parse(document.getElementById(`sec-${idx}-content`).value);
+          } catch (e) {
+            s.content = document.getElementById(`sec-${idx}-content`).value;
+          }
+        }
+        renderSections();
+      };
+      cancelBtn.onclick = () => { renderSections(); };
+
+      controls.appendChild(cancelBtn);
+      controls.appendChild(saveBtn);
+      editor.appendChild(controls);
+
+      // replace the sections container with the editor for this section
+      const containers = document.getElementById('sections-container');
+      containers.innerHTML = '';
+      // render all sections but replace index-th with editor
+      currentPage.sections.forEach((ss, i) => {
+        if (i === idx) {
+          containers.appendChild(editor);
+        } else {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'section-card';
+          placeholder.innerHTML = `<div style="flex:1"><strong>${escapeHtml(ss.type)}</strong><div class="small">${escapeHtml(ss.subheader || ss.header || ss.title || '')}</div></div>`;
+          containers.appendChild(placeholder);
+        }
+      });
+    }
+
+    // upload helper (calls /settings/upload_media)
+    async function uploadFile(file) {
+      const fd = new FormData();
+      fd.append('file', file);
+      const resp = await fetch('/settings/upload_media', { method: 'POST', body: fd });
+      try {
+        const json = await resp.json();
+        return json;
+      } catch (e) {
+        return { ok: false, error: 'Invalid server response' };
+      }
+    }
+
+    // Page Save (AJAX)
+    document.getElementById('page-save').addEventListener('click', async () => {
+      // gather page state
+      const project_id = document.getElementById('page-project-id').value;
+      currentPage.project_id = project_id;
+      currentPage.slug = (document.getElementById('page-slug').value || '').trim();
+      currentPage.title = document.getElementById('page-title').value || '';
+      currentPage.excerpt = document.getElementById('page-excerpt').value || '';
+
+      // POST JSON
+      const resp = await fetch('/settings/save_page', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          project_id: currentPage.project_id,
+          slug: currentPage.slug,
+          title: currentPage.title,
+          excerpt: currentPage.excerpt,
+          sections: currentPage.sections
+        })
+      });
+      const j = await resp.json();
+      if (j && j.ok) {
+        alert('Page saved. Preview will open.');
+        // update slug with server canonical slug
+        document.getElementById('page-slug').value = j.page_slug;
+        window.open('/projects/' + j.page_slug + '.html', '_blank');
+      } else {
+        alert('Save failed: ' + (j && j.error ? j.error : 'unknown'));
+      }
+    });
+
+    // Preview
+    document.getElementById('page-preview').addEventListener('click', () => {
+      const slug = document.getElementById('page-slug').value || '';
+      if (!slug) return alert('Please set page slug first (or save page to auto-generate slug).');
+      window.open('/projects/' + slug + '.html', '_blank');
+    });
+
+    // Open Page Builder for a project
+    document.querySelectorAll('.page-project').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const raw = btn.getAttribute('data-item');
+        const p = JSON.parse(raw);
+        document.getElementById('page-modal-title').innerText = 'Create/Edit Page — ' + (p.title || p.header || '');
+        document.getElementById('page-project-id').value = p.id;
+        document.getElementById('page-title').value = p.header || p.title || '';
+        document.getElementById('page-excerpt').value = p.excerpt || '';
+        document.getElementById('page-slug').value = p.slug || (p.link ? p.link.split('/').pop().replace('.html','') : '');
+        // fetch existing page JSON
+        const resp = await fetch('/settings/get_page?project_id=' + encodeURIComponent(p.id));
+        const j = await resp.json();
+        if (j && j.ok && j.page) {
+          currentPage = j.page;
+        } else {
+          currentPage = { project_id: p.id, slug: (document.getElementById('page-slug').value || ''), title: p.title || p.header || '', excerpt: p.excerpt || '', sections: [] };
+        }
+        // ensure sections array
+        currentPage.sections = currentPage.sections || [];
+        renderSections();
+        openModal('modal-page');
+      });
+    });
+
+    document.getElementById('page-cancel').addEventListener('click', () => closeModal('modal-page'));
+
+    // Wire up delete_page via the delete button
+    // we create a small fetch POST
+    // (already have delete-project/delete-blog handlers in main app; page delete is separate)
+    // Add a simple confirm + POST to /settings/delete_page if needed in UI (you can add a Delete Page button later)
+
+    // ----------------------------
+    // NOTE: Keep your existing project/blog edit/add/delete code (not duplicated here)
+    // ----------------------------
   </script>
 </body>
 </html>

@@ -181,9 +181,9 @@ nav a:hover::after {
 }
 
 #contact-form ::placeholder {
-  color: #1f2937; /* Placeholder text color */
+  color: cyan; /* Placeholder text color */
 }
 
 #area-input ::placeholder {
-  color: #1f2937; /* Placeholder text color */
+  color: #226614; /* Placeholder text color */
 } 
