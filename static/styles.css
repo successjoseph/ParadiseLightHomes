@@ -187,3 +187,80 @@ nav a:hover::after {
 #area-input ::placeholder {
   color: #226614; /* Placeholder text color */
 } 
+
+
+.home {
+    min-height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 0;
+    transition: background-image 1s ease-in-out;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    pointer-events: auto;
+    
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    pointer-events: auto;
+}
+
+.hero-btn {
+    margin-top: 1.5rem;
+    display: inline-block;
+    background: #fff;
+    color: #226614;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background 0.2s, color 0.3s, transform 0.3s;
+    pointer-events: auto;
+}
+
+.hero-btn:hover {
+    background: #226614;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.hero-hidden-btn {
+    opacity: 0;
+    pointer-events: auto;
+}
