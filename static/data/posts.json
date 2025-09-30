@@ -68,10 +68,49 @@
       "excerpt": "Discover best practices for plantation management to ensure optimal harvests and ROI.",
       "cover": "static/img/blog-post-1.jpg",
       "slug": "maximize-palm-oil-yields",
-      "tags": [
-        "agriculture",
-        "yield"
-      ],
+      "tags": ["agriculture", "yield"],
+      "published": true,
+      "is_event": false,
+      "status": "published",
+      "link": "/blog/maximize-palm-oil-yields.html"
+    },
+    {
+      "id": "blog-1",
+      "title": "How to Maximize Your Palm Oil Yields",
+      "header": "How to Maximize Your Palm Oil Yields",
+      "subheader": "Best practices for plantation management",
+      "excerpt": "Discover best practices for plantation management to ensure optimal harvests and ROI.",
+      "cover": "static/img/blog-post-1.jpg",
+      "slug": "maximize-palm-oil-yields",
+      "tags": ["agriculture", "yield"],
+      "published": true,
+      "is_event": false,
+      "status": "published",
+      "link": "/blog/maximize-palm-oil-yields.html"
+    },
+    {
+      "id": "blog-1",
+      "title": "How to Maximize Your Palm Oil Yields",
+      "header": "How to Maximize Your Palm Oil Yields",
+      "subheader": "Best practices for plantation management",
+      "excerpt": "Discover best practices for plantation management to ensure optimal harvests and ROI.",
+      "cover": "static/img/blog-post-1.jpg",
+      "slug": "maximize-palm-oil-yields",
+      "tags": ["agriculture", "yield"],
+      "published": true,
+      "is_event": false,
+      "status": "published",
+      "link": "/blog/maximize-palm-oil-yields.html"
+    },
+    {
+      "id": "blog-1",
+      "title": "How to Maximize Your Palm Oil Yields",
+      "header": "How to Maximize Your Palm Oil Yields",
+      "subheader": "Best practices for plantation management",
+      "excerpt": "Discover best practices for plantation management to ensure optimal harvests and ROI.",
+      "cover": "static/img/blog-post-1.jpg",
+      "slug": "maximize-palm-oil-yields",
+      "tags": ["agriculture", "yield"],
       "published": true,
       "is_event": false,
       "status": "published",
@@ -85,10 +124,7 @@
       "excerpt": "Meet families and workers transformed by our sustainable estates.",
       "cover": "static/img/blog-post-2.jpg",
       "slug": "community-impact-stories",
-      "tags": [
-        "community",
-        "impact"
-      ],
+      "tags": ["community", "impact"],
       "published": true,
       "is_event": false,
       "status": "published",
@@ -102,10 +138,7 @@
       "excerpt": "An expert\u2019s take on global demand, pricing forecasts, and where to invest next.",
       "cover": "static/img/blog-post-3.jpg",
       "slug": "palm-oil-2025-trends",
-      "tags": [
-        "market",
-        "investment"
-      ],
+      "tags": ["market", "investment"],
       "published": true,
       "is_event": false,
       "status": "published",

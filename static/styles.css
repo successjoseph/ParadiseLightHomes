@@ -112,6 +112,24 @@ header {
   font-size: 26px;
 }
 
+.blog-card {
+  flex: 0 0 calc(100% / 3 - 0.67rem);
+  flex-shrink: 0; /* flex-shrink-0 */
+  scroll-snap-align: center; /* snap-center */
+  width: 32%; /* w-72 (72 * 0.25rem = 18rem = 288px) */
+  background-color: #ffffff; /* bg-white */
+  color: #000000; /* text-black */
+  border-radius: 0.25rem;
+  border: #6b6a6a1c 1px solid;
+  overflow: hidden; /* overflow-hidden */
+  transition: box-shadow 0.3s ease; /* transition-shadow duration-300 */
+}
+
+.blog-card:hover {
+  opacity: 0.8; /* dim effect */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
 .card {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -303,4 +321,29 @@ nav a:hover::after {
 
 .about {
   background-color: #a6eba971;
+}
+
+.blog-section {
+  padding: 32px, 24px;
+  width: 100%;
+  margin-bottom: 48px;
+}
+
+#blog-carousel {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* hide scrollbar utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
