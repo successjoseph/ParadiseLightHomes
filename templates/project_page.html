@@ -32,7 +32,7 @@
 
     {# HERO — uses the project's cover or fallback #}
 
-    <section class="hero" style="background: url('{{ project.cover or url_for('static', filename='img/placeholder.png') }}')">
+    <section class="hero" class="background: url('{{ project.cover or url_for('static', filename='img/placeholder.png') }}')">
         <div class="hero-inner">
         <div class="badges">
         {% if project.is_sold %}<div class="badge">SOLD</div>{% elif project.is_coming %}<div class="badge">COMING</div>{% endif %}

@@ -37,29 +37,16 @@
       href="{{ url_for('static', filename='styles.css') }}"
     />
   </head>
-  <body class="">
+  <body class="content-layout-wrapper m-0 p-0">
     <!-- page loader-->
-    <div
-      id="pageloader"
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 9999;
-        background: linear-gradient(135deg, #ffca61, #226614);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      "
-    >
+    <div id="pageloader">
       <div class="spin"></div>
     </div>
 
     <!-- Header -->
     <header
-      class="relative px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg"
+      class="relative px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg w-full"
+      id="our-header"
     >
       <a href="{{ url_for('index') }}" class="mx-auto md:mx-0">
         <img
@@ -120,7 +107,9 @@
             <a href="#investors" class="block py-2">Investor Resources</a>
           </li>
           <li><a href="#blog" class="block py-2">Blog</a></li>
-          <li><a href="#contact" class="block py-2">Contact</a></li>
+          <li>
+            <a href="#contact" class="block py-2" id="headerContact">Contact</a>
+          </li>
         </ul>
       </nav>
     </header>
@@ -142,7 +131,7 @@
     <!-- Hero Section -->
     <section
       id="home"
-      class="home relative text-[#f59c21] slide-images"
+      class="home relative text-[#f59c21] slide-images w-full"
       data-aos="fade-down"
       data-aos-duration="1000"
     >
@@ -178,7 +167,7 @@
       data-aos="fade-up"
       data-aos-duration="1000"
     >
-      <div class="card flex-1 basis-80 min-w-[250px]">
+      <div class="card flex-1 basis-80 min-w-[80%]">
         <h3 class="text-3xl font-extrabold">About Us</h3>
         <br />
         <p class="card_text">
@@ -187,7 +176,7 @@
         </p>
       </div>
 
-      <div class="card flex-1 basis-80 min-w-[250px]">
+      <div class="card flex-1 basis-80 min-w-[80%]">
         <h3 class="text-3xl font-extrabold">Our Mission</h3>
         <br />
         <p class="card_text">
@@ -196,7 +185,7 @@
         </p>
       </div>
 
-      <div class="card flex-1 basis-80 min-w-[250px]">
+      <div class="card flex-1 basis-80 min-w-[80%]">
         <h3 class="text-3xl font-extrabold">Our Vision</h3>
         <br />
         <p class="card_text">
@@ -314,7 +303,6 @@
             <input
               type="number"
               id="area"
-              placeholder="e.g. 6"
               placeholder="e.g. 5"
               class="text-[#226614] border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#73c13e]"
             />
@@ -337,109 +325,133 @@
     </section>
 
     <!-- Blog & News -->
-    <section
-      id="blog"
-      class="px-6 py-12 max-w-6xl mx-auto rounded-lg bg-[#1f2937]"
-      data-aos="fade-down"
-      data-aos-duration="1000"
-    >
-      <h2 class="text-3xl font-bold mb-8 text-[#f59c21]">Blog & News</h2>
-      <div id="blog-grid" class="grid gap-8 md:grid-cols-2">
-        <!-- JS will inject blog posts here -->
-        <div class="col-span-full text-center text-gray-500" id="blog-loading">
-          Loading blog posts…
+    <section id="blog" class="py-12 bg-blue text-white">
+      <h2 class="text-2xl font-bold mb-6 px-4">Blog & News</h2>
+
+      <!-- Carousel Wrapper -->
+      <div class="relative scrollbar-hide">
+        <div
+          id="blog-carousel"
+          class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 px-4 scrollbar-hide"
+        >
+          <div id="blog-grid" class="flex gap-4">
+            <!-- Blog cards injected here -->
+          </div>
         </div>
+
+        <!-- Arrows -->
+        <button
+          id="prev"
+          class="absolute left-2 top-1/2 -translate-y-1/2 bg-white text-black p-2 rounded shadow"
+        >
+          ←
+        </button>
+        <button
+          id="next"
+          class="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-black p-2 rounded shadow"
+        >
+          →
+        </button>
       </div>
     </section>
 
     <!-- Contact us -->
-    <section
-      id="contact"
-      class="ctform px-6 py-12 max-w-6xl mx-auto rounded-lg shadow-lg"
-      data-aos="fade-down"
-      data-aos-duration="1000"
+    <!-- Contact Modal -->
+    <div
+      id="contact-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
     >
-      <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
-      <div class="grid gap-8 md:grid-cols-2">
-        <form
-          id="contact-form"
-          action="{{ url_for('contact') }}"
-          method="POST"
-          class="space-y-4"
+      <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full p-6 relative">
+        <!-- Close Button -->
+        <button
+          id="close-modal"
+          class="absolute top-1 right-3 text-gray-500 hover:text-gray-800 text-4xl"
         >
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            required
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#1f2937] bg-transparent"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            required
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#1f2937] bg-transparent"
-          />
-          <textarea
-            name="message"
-            rows="5"
-            placeholder="Your Message"
-            required
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#1f2937] bg-transparent"
-          ></textarea>
-          <button
-            type="submit"
-            class="bg-[#226614] text-white px-6 py-3 rounded font-semibold hover:bg-[#111827] transition-all duration-300"
-          >
-            Send Message
-          </button>
-        </form>
+          &times;
+        </button>
 
-        <div class="space-y-6">
-          <div class="flex items-center space-x-3">
-            <img
-              src="{{ url_for('static', filename='img/phone-icon.png') }}"
-              alt="Phone icon"
-              class="h-6 w-6"
-            />
-            <a href="tel:+2348012345678" class="text-white font-medium"
-              >+234 801 234 5678</a
+        <!-- Your Contact Form Section -->
+        <section id="contact" class="ctform">
+          <h2 class="text-3xl font-bold mb-6">Ask us your questions...</h2>
+          <div class="grid gap-8 md:grid-cols-2">
+            <form
+              id="contact-form"
+              action="{{ url_for('contact') }}"
+              method="POST"
+              class="space-y-4"
             >
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                required
+                class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00000] bg-transparent"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                required
+                class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00000] bg-transparent"
+              />
+              <textarea
+                name="message"
+                rows="5"
+                placeholder="Your Message"
+                required
+                class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00000] bg-transparent"
+              ></textarea>
+              <button
+                type="submit"
+                class="bg-[#f9b732] text-white px-6 py-3 rounded font-semibold hover:bg-[#226614] transition-all duration-300"
+              >
+                Send Message
+              </button>
+            </form>
+
+            <div class="space-y-6">
+              <div class="flex items-center space-x-3">
+                <img
+                  src="{{ url_for('static', filename='img/phone-icon.png') }}"
+                  alt="Phone icon"
+                  class="h-6 w-6"
+                />
+                <a href="tel:+2348012345678" class="text-black font-medium"
+                  >+234 801 234 5678</a
+                >
+              </div>
+              <div class="flex items-center space-x-3">
+                <img
+                  src="{{ url_for('static', filename='img/email-icon.png') }}"
+                  alt="Email icon"
+                  class="h-6 w-6"
+                />
+                <a
+                  href="mailto:info@paradiselighthomes.ng"
+                  class="text-black font-medium"
+                  >info@paradiselighthomes.ng</a
+                >
+              </div>
+              <div class="flex items-center space-x-3">
+                <img
+                  src="{{ url_for('static', filename='img/whatsapp-icon.svg') }}"
+                  alt="WhatsApp icon"
+                  class="h-6 w-6"
+                />
+                <a
+                  href="https://wa.me/2348012345678"
+                  target="_blank"
+                  class="text-black font-medium"
+                  >Chat on WhatsApp</a
+                >
+              </div>
+            </div>
           </div>
-          <div class="flex items-center space-x-3">
-            <img
-              src="{{ url_for('static', filename='img/email-icon.png') }}"
-              alt="Email icon"
-              class="h-6 w-6"
-            />
-            <a
-              href="mailto:info@paradiselighthomes.ng"
-              class="text-white font-medium"
-              >info@paradiselighthomes.ng</a
-            >
-          </div>
-          <div class="flex items-center space-x-3">
-            <img
-              src="{{ url_for('static', filename='img/whatsapp-icon.svg') }}"
-              alt="WhatsApp icon"
-              class="h-6 w-6"
-            />
-            <a
-              href="https://wa.me/2348012345678"
-              target="_blank"
-              class="text-white font-medium"
-              >Chat on WhatsApp</a
-            >
-          </div>
-        </div>
+        </section>
       </div>
-    </section>
+    </div>
 
-    <div class="mt-4 p-8 m-16 shadow-lg">
+    <div class="mt-4 py-8 my-8 shadow">
       <h2 class="text-3xl font-extrabold text-center">VISIT US HERE</h2>
       <br />
       <iframe
@@ -459,7 +471,7 @@
       <div
         class="max-w-6xl mx-auto px-6 grid gap-8 md:grid-cols-3 flex justify-between"
       >
-        <div style="width: 120%; margin-top: auto">
+        <div style="width: 100%; margin-top: auto">
           <h4 class="font-semibold mb-3 text-[#ffca61] thth">Quick Links</h4>
           <ul class="space-y-2 grid grid-cols-2">
             <li><a href="#home" class=" text-sm">Home</a></li>
@@ -531,7 +543,6 @@
             method="POST"
             class="flex flex-col sm:flex-row gap-2"
           >
-          <form action="" method="POST" class="flex flex-col sm:flex-row gap-2">
             <input
               type="email"
               name="email"
