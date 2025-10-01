@@ -39,28 +39,14 @@
   </head>
   <body class="content-layout-wrapper m-0 p-0">
     <!-- page loader-->
-    <div
-      id="pageloader"
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        z-index: 9999;
-        background: linear-gradient(135deg, #ffca61, #226614);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-      "
-    >
+    <div id="pageloader">
       <div class="spin"></div>
     </div>
 
     <!-- Header -->
     <header
       class="relative px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-lg w-full"
+      id="our-header"
     >
       <a href="{{ url_for('index') }}" class="mx-auto md:mx-0">
         <img
@@ -121,7 +107,9 @@
             <a href="#investors" class="block py-2">Investor Resources</a>
           </li>
           <li><a href="#blog" class="block py-2">Blog</a></li>
-          <li><a href="#contact" class="block py-2">Contact</a></li>
+          <li>
+            <a href="#contact" class="block py-2" id="headerContact">Contact</a>
+          </li>
         </ul>
       </nav>
     </header>
@@ -368,88 +356,100 @@
     </section>
 
     <!-- Contact us -->
-    <!-- <section
-      id="contact"
-      class="ctform px-6 py-12 max-w-6xl mx-auto rounded-lg shadow-lg"
-      data-aos="fade-down"
-      data-aos-duration="1000"
+    <!-- Contact Modal -->
+    <div
+      id="contact-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
     >
-      <h2 class="text-3xl font-bold mb-6">Contact Us</h2>
-      <div class="grid gap-8 md:grid-cols-2">
-        <form
-          id="contact-form"
-          action="{{ url_for('contact') }}"
-          method="POST"
-          class="space-y-4"
+      <div class="bg-white rounded-lg shadow-lg max-w-4xl w-full p-6 relative">
+        <!-- Close Button -->
+        <button
+          id="close-modal"
+          class="absolute top-1 right-3 text-gray-500 hover:text-gray-800 text-4xl"
         >
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            required
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            required
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
-          />
-          <textarea
-            name="message"
-            rows="5"
-            placeholder="Your Message"
-            required
-            class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00ffff] bg-transparent"
-          ></textarea>
-          <button
-            type="submit"
-            class="bg-[#226614] text-white px-6 py-3 rounded font-semibold hover:bg-[#111827] transition-all duration-300"
-          >
-            Send Message
-          </button>
-        </form>
+          &times;
+        </button>
 
-        <div class="space-y-6">
-          <div class="flex items-center space-x-3">
-            <img
-              src="{{ url_for('static', filename='img/phone-icon.png') }}"
-              alt="Phone icon"
-              class="h-6 w-6"
-            />
-            <a href="tel:+2348012345678" class="text-white font-medium"
-              >+234 801 234 5678</a
+        <!-- Your Contact Form Section -->
+        <section id="contact" class="ctform">
+          <h2 class="text-3xl font-bold mb-6">Ask us your questions...</h2>
+          <div class="grid gap-8 md:grid-cols-2">
+            <form
+              id="contact-form"
+              action="{{ url_for('contact') }}"
+              method="POST"
+              class="space-y-4"
             >
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                required
+                class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00000] bg-transparent"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                required
+                class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00000] bg-transparent"
+              />
+              <textarea
+                name="message"
+                rows="5"
+                placeholder="Your Message"
+                required
+                class="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-[#9df35b] text-[#00000] bg-transparent"
+              ></textarea>
+              <button
+                type="submit"
+                class="bg-[#f9b732] text-white px-6 py-3 rounded font-semibold hover:bg-[#226614] transition-all duration-300"
+              >
+                Send Message
+              </button>
+            </form>
+
+            <div class="space-y-6">
+              <div class="flex items-center space-x-3">
+                <img
+                  src="{{ url_for('static', filename='img/phone-icon.png') }}"
+                  alt="Phone icon"
+                  class="h-6 w-6"
+                />
+                <a href="tel:+2348012345678" class="text-black font-medium"
+                  >+234 801 234 5678</a
+                >
+              </div>
+              <div class="flex items-center space-x-3">
+                <img
+                  src="{{ url_for('static', filename='img/email-icon.png') }}"
+                  alt="Email icon"
+                  class="h-6 w-6"
+                />
+                <a
+                  href="mailto:info@paradiselighthomes.ng"
+                  class="text-black font-medium"
+                  >info@paradiselighthomes.ng</a
+                >
+              </div>
+              <div class="flex items-center space-x-3">
+                <img
+                  src="{{ url_for('static', filename='img/whatsapp-icon.svg') }}"
+                  alt="WhatsApp icon"
+                  class="h-6 w-6"
+                />
+                <a
+                  href="https://wa.me/2348012345678"
+                  target="_blank"
+                  class="text-black font-medium"
+                  >Chat on WhatsApp</a
+                >
+              </div>
+            </div>
           </div>
-          <div class="flex items-center space-x-3">
-            <img
-              src="{{ url_for('static', filename='img/email-icon.png') }}"
-              alt="Email icon"
-              class="h-6 w-6"
-            />
-            <a
-              href="mailto:info@paradiselighthomes.ng"
-              class="text-white font-medium"
-              >info@paradiselighthomes.ng</a
-            >
-          </div>
-          <div class="flex items-center space-x-3">
-            <img
-              src="{{ url_for('static', filename='img/whatsapp-icon.svg') }}"
-              alt="WhatsApp icon"
-              class="h-6 w-6"
-            />
-            <a
-              href="https://wa.me/2348012345678"
-              target="_blank"
-              class="text-white font-medium"
-              >Chat on WhatsApp</a
-            >
-          </div>
-        </div>
+        </section>
       </div>
-    </section> -->
+    </div>
 
     <div class="mt-4 py-8 my-8 shadow">
       <h2 class="text-3xl font-extrabold text-center">VISIT US HERE</h2>

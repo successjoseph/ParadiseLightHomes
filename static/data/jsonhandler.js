@@ -80,7 +80,8 @@ function renderBlog(items) {
   <article class="blog-card" >
     <img  src="${escapeHtml(
       cover
-    )}" alt="${title}" loading="lazy" class="w-full h-48 object-cover" />
+    )}" alt="${title}" loading="lazy" class="w-full h-48 object-cover"
+     />
     <div class="p-4">
       <h3 class="text-lg font-semibold mb-2">${title}</h3>
       <p class="mb-4 text-gray-600">${excerpt}</p>
@@ -157,4 +158,31 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("accept-cookies")?.addEventListener("click", () => {
     document.getElementById("cookie-banner").classList.add("hidden");
   });
+});
+
+const contactModal = document.getElementById("contact-modal");
+const closeModal = document.getElementById("close-modal");
+
+let modalShown = false;
+
+window.addEventListener("scroll", () => {
+  if (modalShown) return; // show only once
+  const scrollPercent =
+    (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+
+  if (scrollPercent > 0.4) {
+    // 👈 40% mark
+    contactModal.classList.remove("hidden");
+    modalShown = true;
+  }
+});
+
+// Close modal
+closeModal.addEventListener("click", () => {
+  contactModal.classList.add("hidden");
+});
+
+document.getElementById("headerContact").addEventListener("click", (e) => {
+  e.preventDefault(); // prevent jump to #contact
+  contactModal.classList.remove("hidden");
 });
