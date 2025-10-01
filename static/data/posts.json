@@ -42,21 +42,6 @@
       "created_at": "2025-09-26T22:53:20.396397Z",
       "updated_at": "2025-09-26T23:25:45.968169Z",
       "slug": "residential-estates"
-    },
-    {
-      "id": "proj-e2498429",
-      "title": "example",
-      "header": "example",
-      "subheader": "example",
-      "excerpt": "example excerpt",
-      "cover": "static/uploads/90b4123da1044bcd9cb207273202d903_img_mountains.jpg",
-      "published": true,
-      "is_sold": false,
-      "is_coming": false,
-      "link": "/projects/example.html",
-      "created_at": "2025-09-27T13:55:18.396014Z",
-      "updated_at": "2025-09-27T15:06:15.748986Z",
-      "slug": "example"
     }
   ],
   "blog": [
